@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPIC: title</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/draft.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/marked/marked.min.js"></script>
+<script src="markdown-bundle.js"></script>
+<script src="assets/draft.js"></script>
+<style>
+.drawing.lab{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);grid-template-areas:"a b" "a r"}
+.drawing #vp-a{grid-area:a;height:640px;--h:640px}
+.drawing #vp-b{grid-area:b;height:330px;--h:330px}
+.drawing .titleblock{grid-area:r;align-self:start}
+.figure-help{font:12px/1.7 var(--sans);color:var(--ink-2);margin:15px 0 24px}
+.figure-help .dynamic-summary{display:block;margin-top:8px;color:var(--ink);overflow-x:auto}
+.toggles{display:flex;flex-wrap:wrap;gap:18px;padding:12px 0 28px;font:13px var(--sans)}
+.toggles label{display:flex;gap:7px;align-items:center}
+.vp canvas:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.params .param{min-width:210px}
+.notes .formula{font-size:15px;overflow-x:auto}.formula{max-width:100%}
+.presets-label{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.note{font-size:12px}
+@media(max-width:980px){.drawing #vp-a{height:420px;min-height:0}.drawing #vp-b{height:300px}}
+@media(max-width:700px){.drawing #vp-a{--h:360px}.vp>figcaption{font-size:11px}.params .param{min-width:0}}
+</style>
+</head>
+<body>
+<main class="sheet">
+<div class="zones" aria-hidden="true">
+  <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+</div>
+<div class="frame">
+<header class="sheet-head">
+  <span class="code">SL · 00</span><span>Specific Learning</span><span class="meta">TOPIC: course · subject</span>
+  <nav class="sheet-nav" aria-label="Experiment views">
+    <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+    <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-title">
+    <p class="sub">TOPIC: subtitle</p>
+    <h1 class="latin" aria-label="Topic title"><span class="ch">TOPIC</span> <span class="ch">TITLE</span></h1>
+    <p class="lede">TOPIC: one-sentence lede.</p>
+  </div>
+  <div class="hero-side">
+    <figure class="hero-ascii" role="img" aria-label="TOPIC: ASCII schematic of a unit square (dashed) and its sheared image; not to scale.">
+      <pre aria-hidden="true">TOPIC: replace with art tied to the topic.
+   |            <span class="ascii-accent">.---------.</span>
+   |           <span class="ascii-accent">/         /</span>
+ e2|          <span class="ascii-accent">/   A e   /</span>
+ : |         <span class="ascii-accent">/  ---&gt;   /</span>
+ +-:--------<span class="ascii-accent">'---------'</span>
+ | e1
+ +------------------</pre>
+      <figcaption>TOPIC: CAPTION · NTS</figcaption>
+    </figure>
+  </div>
+  <aside class="sheet-notes" aria-label="Model notes">
+    <h2>NOTES</h2>
+    <ol>
+      <li><div>TOPIC: assumption, object type or scope note.</div></li>
+    </ol>
+  </aside>
+</section>
+
+<div class="section-label" id="experiment"><b>01</b>EXPERIMENT · TOPIC: what is shown</div>
+<section class="experiment-layout" id="experiment-workspace">
+  <aside class="control-rail" aria-label="Experiment controls">
+    <section class="params" aria-label="Matrix entries and probe">
+      <h2><span class="tag">P</span>Matrix and probe</h2>
+      <div class="param"><div class="param-head"><label for="p-a"><b><span data-tex="a"></span></b><span>row 1, col 1</span></label><span class="num"><input aria-label="Exact matrix entry a" data-param="a" type="number" min="-2.5" max="2.5" step="0.05" value="1.2"></span></div><input class="ruler" id="p-a" data-param="a" type="range" min="-2.5" max="2.5" step="0.05" value="1.2"></div>
+      <div class="param"><div class="param-head"><label for="p-b"><b><span data-tex="b"></span></b><span>row 1, col 2</span></label><span class="num"><input aria-label="Exact matrix entry b" data-param="b" type="number" min="-2.5" max="2.5" step="0.05" value="0.5"></span></div><input class="ruler" id="p-b" data-param="b" type="range" min="-2.5" max="2.5" step="0.05" value="0.5"></div>
+      <div class="param"><div class="param-head"><label for="p-c"><b><span data-tex="c"></span></b><span>row 2, col 1</span></label><span class="num"><input aria-label="Exact matrix entry c" data-param="c" type="number" min="-2.5" max="2.5" step="0.05" value="0.3"></span></div><input class="ruler" id="p-c" data-param="c" type="range" min="-2.5" max="2.5" step="0.05" value="0.3"></div>
+      <div class="param"><div class="param-head"><label for="p-d"><b><span data-tex="d"></span></b><span>row 2, col 2</span></label><span class="num"><input aria-label="Exact matrix entry d" data-param="d" type="number" min="-2.5" max="2.5" step="0.05" value="0.9"></span></div><input class="ruler" id="p-d" data-param="d" type="range" min="-2.5" max="2.5" step="0.05" value="0.9"></div>
+      <div class="param"><div class="param-head"><label for="p-x"><b><span data-tex="x_1"></span></b><span>probe vector, first component</span></label><span class="num"><input aria-label="Exact probe first component" data-param="x" type="number" min="-3" max="3" step="0.05" value="1"></span></div><input class="ruler" id="p-x" data-param="x" type="range" min="-3" max="3" step="0.05" value="1"></div>
+      <div class="param"><div class="param-head"><label for="p-y"><b><span data-tex="x_2"></span></b><span>probe vector, second component</span></label><span class="num"><input aria-label="Exact probe second component" data-param="y" type="number" min="-3" max="3" step="0.05" value="0.5"></span></div><input class="ruler" id="p-y" data-param="y" type="range" min="-3" max="3" step="0.05" value="0.5"></div>
+      <div class="presets"><span class="presets-label">Presets</span>
+        <button class="btn" type="button" data-preset="identity"><span class="tag">1</span>Identity</button>
+        <button class="btn" type="button" data-preset="rotation"><span class="tag">2</span>Rotation</button>
+        <button class="btn" type="button" data-preset="shear"><span class="tag">3</span>Shear</button>
+        <button class="btn" type="button" data-preset="reflection"><span class="tag">4</span>Reflection</button>
+        <button class="btn" type="button" data-preset="singular"><span class="tag">5</span>Singular</button>
+        <span class="note">Drag the crosses on view A: the tips of <span data-tex="Ae_1"></span>, <span data-tex="Ae_2"></span> and the probe <span data-tex="x"></span>. Values snap to 0.05.</span></div>
+    </section>
+    <div class="rail-actions"><button class="btn" id="reset" type="button">Reset defaults</button><button class="btn" id="download" type="button">Download guide</button></div>
+  </aside>
+
+  <div class="experiment-main">
+    <section class="drawing lab" id="drawing">
+      <figure class="vp" id="vp-a"><figcaption><span class="tag">A</span>Plane <span data-tex="\mathbb{R}^2\to\mathbb{R}^2"></span> · equal scale · drag crosses</figcaption><canvas id="cv-a" role="img" aria-describedby="desc-a"></canvas><p class="sr-only" id="desc-a"></p></figure>
+      <figure class="vp" id="vp-b"><figcaption><span class="tag">B</span>Unit circle → ellipse · equal scale</figcaption><canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas><p class="sr-only" id="desc-b"></p></figure>
+      <aside class="titleblock" aria-label="Current readouts" aria-live="polite">
+        <div class="cell key" id="cell-det"><small><span data-tex="\det A"></span> signed area scale</small><b id="r-det">—</b></div>
+        <div class="cell" id="cell-trace"><small><span data-tex="\operatorname{tr}A"></span> trace</small><b id="r-trace">—</b></div>
+        <div class="cell wide" id="cell-eig"><small>eigenvalues <span data-tex="\lambda_{1,2}"></span></small><b id="r-eig">—</b></div>
+        <div class="cell" id="cell-Ax"><small><span data-tex="Ax"></span> image of probe</small><b id="r-Ax">—</b></div>
+        <div class="cell" id="cell-sigma"><small>ellipse semi-axes <span data-tex="\sigma_1,\sigma_2"></span></small><b id="r-sigma">—</b></div>
+        <div class="cell wide text"><small>TOPIC: scale and domain for A and B</small><b>TOPIC: equal axes, NTS notes, ranges.</b></div>
+      </aside>
+    </section>
+    <p class="figure-help">TOPIC: how to read dashed originals, solid images and the orientation arc.
+      <span class="dynamic-summary"><span id="dynamic-summary-math"></span></span>
+    </p>
+    <div class="toggles" aria-label="Display options"><label><input type="checkbox" data-option="grid" checked>Show transformed grid</label><label><input type="checkbox" data-option="eig" checked>Show eigen-directions</label></div>
+  </div>
+</section>
+
+<div class="section-label" id="guide"><b>02</b>DERIVATION · TOPIC: derivation, predictions, pitfalls</div>
+<section class="notes">
+  <article class="panel"><h2><span class="tag">F</span>TOPIC: definition and derivation</h2>
+    <div class="formula" data-tex="\text{TOPIC: key formula}"></div>
+    <p>TOPIC: setup, derivation with provenance tags [Standard result] / [Derivation].</p>
+    <h3>Scope and assumptions</h3>
+    <p>TOPIC: object types, assumptions, failure limits.</p>
+  </article>
+  <article class="panel"><h2><span class="tag">G</span>Predict first, then check</h2>
+    <p>TOPIC: two or three prediction questions.</p>
+    <details><summary>Open the observation path and answer</summary><p>TOPIC: answers.</p></details>
+    <h3>Pitfalls</h3>
+    <p>TOPIC: common misreadings.</p>
+    <p class="muted">TOPIC: sources.</p>
+  </article>
+</section>
+<footer class="sheet-foot"><span>Native Canvas 2D; local KaTeX / marked (MIT); all computation runs in the browser.</span><span>Check: python viz/check.py · finite cases do not replace proof</span><span class="status" data-shell-status></span></footer>
+</div>
+</main>
+<div class="reader-overlay" aria-hidden="true" inert><section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-toolbar"><strong id="reader-title"><span class="tag">MD</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+  <article class="markdown-body"></article>
+</section></div>
+
+<script id="lab-model">
+const MODEL = {
+ evaluate(inputs,P){
+  const {x,y}=inputs,{a,b,c,d}=P;
+  if(![x,y,a,b,c,d].every(Number.isFinite))throw new Error('Invalid model input');
+  const det=a*d-b*c,tr=a+d,disc=tr*tr-4*det,real=disc>=0,s=Math.sqrt(Math.max(disc,0));
+  const root=Math.sqrt((a*a+b*b-c*c-d*d)**2+4*(a*c+b*d)**2),sigma1=Math.sqrt((a*a+b*b+c*c+d*d+root)/2);
+  return {det,trace:tr,Ax_x:a*x+b*y,Ax_y:c*x+d*y,area_scale:Math.abs(det),orientation:Math.sign(det),eig_real:Number(real),
+   eig1:real?(tr+s)/2:0,eig2:real?(tr-s)/2:0,eig_re:tr/2,eig_im:real?0:Math.sqrt(-disc)/2,sigma1,sigma2:sigma1>0?Math.abs(det)/sigma1:0};
+ },
+ // Drawing helper: direction of the eigenvector for real eigenvalue l, or null when A = l*I (every direction).
+ eigvec(P,l){
+  const {a,b,c,d}=P,u=[b,l-a],v=[l-d,c],n=Math.hypot(...u)>=Math.hypot(...v)?u:v,m=Math.hypot(...n);
+  return m<1e-9?null:[n[0]/m,n[1]/m];
+ }
+};
+globalThis.MODEL=MODEL;
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+'use strict';
+const D=Draft,K=D.colors(),$=id=>document.getElementById(id),params=document.querySelector('.params');
+const DEFAULTS={a:1.2,b:.5,c:.3,d:.9,x:1,y:.5,grid:true,eig:true},state={...DEFAULTS};
+const bounds={a:[-2.5,2.5],b:[-2.5,2.5],c:[-2.5,2.5],d:[-2.5,2.5],x:[-3,3],y:[-3,3]};
+const PRESETS={identity:{a:1,b:0,c:0,d:1},rotation:{a:.8,b:-.6,c:.6,d:.8},shear:{a:1,b:1,c:0,d:1},reflection:{a:0,b:1,c:1,d:0},singular:{a:1,b:2,c:.5,d:1}};
+const P=()=>({a:state.a,b:state.b,c:state.c,d:state.d}),fmt=v=>(Math.abs(v)<5e-3?0:v).toFixed(2);
+const map=(u,v)=>[state.a*u+state.b*v,state.c*u+state.d*v],snap=v=>Math.round(v*20)/20;
+let frames={};
+function update(patch={}){
+ for(const [key,value] of Object.entries(patch)){
+  if(key in bounds){if(Number.isFinite(value))state[key]=Math.max(bounds[key][0],Math.min(bounds[key][1],value));}
+  else if(key in DEFAULTS)state[key]=!!value;
+ }
+ D.syncParams(params,state);
+ for(const el of document.querySelectorAll('[data-option]'))el.checked=state[el.dataset.option];
+ render();
+}
+D.bindParams(params,update);D.rulers();D.math();D.shell();
+for(const el of document.querySelectorAll('[data-option]'))el.addEventListener('change',()=>update({[el.dataset.option]:el.checked}));
+const shellStatus=document.querySelector('[data-shell-status]');if(shellStatus)shellStatus.textContent='Local assets · no external dependencies';
+const line=(c,pts,o={})=>D.path(c,pts,o),inView=(F,[x,y])=>x>=F.x[0]&&x<=F.x[1]&&y>=F.y[0]&&y<=F.y[1];
+// Orientation arc about the origin from direction (p) to direction (q) by the short way; radius r in data units.
+function orientationArc(c,F,p,q,r,o){
+ const t1=Math.atan2(p[1],p[0]),t2=Math.atan2(q[1],q[0]);let dt=t2-t1;dt-=2*Math.PI*Math.round(dt/(2*Math.PI));
+ const pts=Array.from({length:25},(_,i)=>[F.X(r*Math.cos(t1+dt*i/24)),F.Y(r*Math.sin(t1+dt*i/24))]);
+ line(c,pts.slice(0,-1),o);D.vector(c,...pts.at(-2),...pts.at(-1),{...o,head:7});
+}
+function drawPlane(r){
+ const cv=$('cv-a'),{c,w,h}=D.setup(cv),bx=D.box(cv,{t:34,r:22,b:34,l:34}),F=D.frame(bx,[-3.6,3.6],[-3.6,3.6],{equal:true});frames.a=F;
+ const O=(u,v)=>[F.X(u),F.Y(v)],T=(u,v)=>O(...map(u,v)),e1=T(1,0),e2=T(0,1),o=O(0,0),flip=r.det<0;
+ const lo=[Math.ceil(F.x[0]),Math.ceil(F.y[0])],hi=[Math.floor(F.x[1]),Math.floor(F.y[1])],R=14;
+ D.clip(c,bx,()=>{
+  if(state.grid)for(let k=-R;k<=R;k++){line(c,[T(k,-3*R),T(k,3*R)],{color:K.fog,width:1.1});line(c,[T(-3*R,k),T(3*R,k)],{color:K.fog,width:1.1});}
+  for(let k=lo[0];k<=hi[0];k++)line(c,[O(k,F.y[0]),O(k,F.y[1])],{color:K.ink3,width:.75,dash:D.DASH.fine});
+  for(let k=lo[1];k<=hi[1];k++)line(c,[O(F.x[0],k),O(F.x[1],k)],{color:K.ink3,width:.75,dash:D.DASH.fine});
+  line(c,[O(0,0),O(1,0),O(1,1),O(0,1),O(0,0)],{color:K.ink2,width:1.1,dash:D.DASH.dash});
+  D.poly(c,[T(0,0),T(1,0),T(1,1),T(0,1)],{fill:flip?K.accentWash:K.fogWash,stroke:K.ink,width:1.8});
+ });
+ D.axes(c,F,{xTicks:[-3,-2,-1,1,2,3],yTicks:[-3,-2,-1,1,2,3],origin:true,grid:false,xLabel:'x₁',yLabel:'x₂'});
+ const ink={color:K.ink2,width:1.2,dash:D.DASH.dash},img={color:K.ink,width:2.4},tip=(p,s,col=K.ink)=>{const dx=p[0]-o[0],dy=p[1]-o[1],n=Math.hypot(dx,dy)||1;D.text(c,s,p[0]+dx/n*14,p[1]+dy/n*14+4,{align:dx<-3?'right':dx>3?'left':'center',color:col});};
+ D.clip(c,bx,()=>{
+  D.vector(c,...o,...O(1,0),ink);D.vector(c,...o,...O(0,1),ink);
+  if(Math.hypot(state.a,state.c)>.05&&Math.hypot(state.b,state.d)>.05){
+   orientationArc(c,F,[1,0],[0,1],.4,{color:K.ink2,width:1,dash:D.DASH.dash});
+   orientationArc(c,F,[state.a,state.c],[state.b,state.d],.65,{color:K.accent,width:1.8});
+  }
+  D.vector(c,...o,...e1,img);D.vector(c,...o,...e2,img);
+  const x0=O(state.x,state.y),Ax=T(state.x,state.y);
+  D.vector(c,...o,...x0,{color:K.ink2,width:1.4,dash:D.DASH.dash});
+  D.vector(c,...o,...Ax,{color:K.accent,width:2.4});
+  line(c,[x0,Ax],{color:K.accent,width:1,dash:D.DASH.dot});
+  tip(e1,'Ae₁');tip(e2,'Ae₂');for(const [q,name] of [[[1,0],'e₁'],[[0,1],'e₂']])if(Math.min(...[[1,0],[0,1]].map(t=>Math.hypot(...map(...t).map((v,i)=>v-q[i]))))>.15)tip(O(...q),name,K.ink2);tip(Ax,'Ax',K.accentInk);tip(x0,'x',K.ink2);
+  const m=T(.5,.5);D.text(c,'det = '+fmt(r.det),m[0],m[1]+4,{align:'center',font:`600 12px ${K.mono}`,color:K.ink});
+  D.cross(c,...e1,{color:K.ink});D.cross(c,...e2,{color:K.ink});D.cross(c,...x0,{color:K.accent});D.dot(c,...Ax,{color:K.accent,r:3});
+ });
+ D.text(c,flip?'det < 0: orientation reversed (arc turns clockwise)':r.det===0?'det = 0: plane collapses onto a line':'det > 0: orientation preserved',bx.l+8,bx.t+14,{color:flip?K.accentInk:K.ink2,font:`11px ${K.sans}`});
+ D.text(c,`equal axes · 1 unit = ${(F.X(1)-F.X(0)).toFixed(0)} px · dashed: original · solid: image`,bx.l+8,bx.b-8,{color:K.ink2,font:`11px ${K.mono}`});
+ $('desc-a').textContent=`Plane with equal axes. Dashed original unit square with basis vectors e1 and e2; solid image parallelogram with Ae1=(${fmt(state.a)}, ${fmt(state.c)}) and Ae2=(${fmt(state.b)}, ${fmt(state.d)}). Signed area det A=${fmt(r.det)}, ${flip?'orientation reversed':r.det===0?'collapsed onto a line':'orientation preserved'}. Probe x=(${fmt(state.x)}, ${fmt(state.y)}) maps to Ax=(${fmt(r.Ax_x)}, ${fmt(r.Ax_y)}). Drag the crosses or use the matrix and probe controls.`;
+}
+function drawCircleImage(r){
+ const cv=$('cv-b'),{c}=D.setup(cv),bx=D.box(cv,{t:30,r:16,b:24,l:16}),F=D.frame(bx,[-3.2,3.2],[-3.2,3.2],{equal:true});frames.b=F;
+ const N=181,circle=Array.from({length:N},(_,i)=>[Math.cos(2*Math.PI*i/(N-1)),Math.sin(2*Math.PI*i/(N-1))]);
+ const O=(u,v)=>[F.X(u),F.Y(v)],ellipse=circle.map(([u,v])=>O(...map(u,v)));
+ D.axes(c,F,{xTicks:[-3,-2,-1,1,2,3],yTicks:[-3,-2,-1,1,2,3],origin:true,grid:false,showX:false,showY:false});
+ D.clip(c,bx,()=>{
+  D.poly(c,ellipse,{fill:K.fogWash});
+  line(c,circle.map(([u,v])=>O(u,v)),{color:K.ink2,width:1.1,dash:D.DASH.dash});
+  line(c,ellipse,{color:K.ink,width:2});
+  if(state.eig&&r.eig_real)for(const l of [r.eig1,r.eig2]){
+   const v=MODEL.eigvec(P(),l);if(!v)continue;
+   line(c,[O(-12*v[0],-12*v[1]),O(12*v[0],12*v[1])],{color:K.accent,width:1,dash:D.DASH.chain});
+   const q=[3.3*v[0],3.3*v[1]];if(inView(F,q))D.text(c,'λ='+fmt(l),...O(...q),{color:K.accentInk,font:`11px ${K.mono}`});
+  }
+  D.dot(c,...O(state.a,state.c),{color:K.ink,hollow:true,r:3});D.dot(c,...O(state.b,state.d),{color:K.ink,hollow:true,r:3});
+ });
+ D.text(c,r.sigma2<.005?'image collapses to a segment':'semi-axes σ₁='+fmt(r.sigma1)+', σ₂='+fmt(r.sigma2)+' · area π|det|',bx.l+4,bx.t-10,{color:K.ink2,font:`11px ${K.sans}`,halo:false});
+ D.text(c,state.eig&&!r.eig_real?'complex eigenvalues: no real eigen-direction':'dashed: unit circle · solid: image',bx.l+4,bx.b+14,{color:K.ink2,font:`11px ${K.mono}`,halo:false});
+ $('desc-b').textContent=`Dashed unit circle and its solid elliptical image with semi-axes ${fmt(r.sigma1)} and ${fmt(r.sigma2)}, equal axes. ${r.eig_real?`Real eigenvalues ${fmt(r.eig1)} and ${fmt(r.eig2)}; eigen-directions are thin chain lines when enabled.`:`Complex eigenvalues ${fmt(r.eig_re)} plus or minus ${fmt(r.eig_im)} i, so no direction is preserved.`}`;
+}
+function render(){
+ const r=MODEL.evaluate({x:state.x,y:state.y},P());
+ $('r-det').textContent=fmt(r.det);$('r-trace').textContent=fmt(r.trace);
+ $('r-eig').textContent=r.eig_real?`real: ${fmt(r.eig1)}, ${fmt(r.eig2)}`:`complex: ${fmt(r.eig_re)} ± ${fmt(r.eig_im)}i`;
+ $('r-Ax').textContent=`(${fmt(r.Ax_x)}, ${fmt(r.Ax_y)})`;$('r-sigma').textContent=`${fmt(r.sigma1)}, ${fmt(r.sigma2)}`;
+ $('cell-det').classList.toggle('fail',r.det<0);
+ D.setMath($('dynamic-summary-math'),String.raw`A=\begin{bmatrix}${fmt(state.a)}&${fmt(state.b)}\\${fmt(state.c)}&${fmt(state.d)}\end{bmatrix},\quad \det A=${fmt(r.det)},\quad Ae_1=(${fmt(state.a)},${fmt(state.c)}),\ Ae_2=(${fmt(state.b)},${fmt(state.d)}),\quad Ax=\begin{bmatrix}${fmt(r.Ax_x)}\\${fmt(r.Ax_y)}\end{bmatrix}`);
+ drawPlane(r);drawCircleImage(r);
+}
+// One draggable cross per handle: Ae1 tip, Ae2 tip (image space) and the probe tip (original space).
+D.drag($('cv-a'),{
+ hit:(px,py)=>{const F=frames.a;if(!F)return null;let best=null,bd=15;
+  for(const [name,p] of [['e1',map(1,0)],['e2',map(0,1)],['x',[state.x,state.y]]]){const d=Math.hypot(F.X(p[0])-px,F.Y(p[1])-py);if(d<bd){bd=d;best=name;}}return best;},
+ move:(name,px,py)=>{const F=frames.a,u=snap(F.ix(px)),v=snap(F.iy(py));
+  update(name==='e1'?{a:u,c:v}:name==='e2'?{b:u,d:v}:{x:u,y:v});}
+});
+for(const el of document.querySelectorAll('[data-preset]'))el.addEventListener('click',()=>update(PRESETS[el.dataset.preset]));
+$('reset').addEventListener('click',()=>update({...DEFAULTS}));$('download').addEventListener('click',()=>D.downloadNote('guide'));
+new ResizeObserver(()=>render()).observe($('drawing'));update();
+});
+</script>
+</body>
+</html>

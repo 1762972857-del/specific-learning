@@ -1,0 +1,29 @@
+[
+ {
+  "name": "narrow slits",
+  "do": [
+   {
+    "click": "#narrow"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-b"
+   }
+  ]
+ },
+ {
+  "name": "exact wavelength",
+  "do": [
+   {
+    "fill": "input[type=number][data-param=lam]",
+    "value": "1.5"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-b"
+   }
+  ]
+ }
+]

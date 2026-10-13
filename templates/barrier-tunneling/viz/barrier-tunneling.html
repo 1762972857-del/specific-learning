@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOPIC: title</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="assets/draft.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script src="assets/vendor/marked/marked.min.js"></script>
+  <script src="markdown-bundle.js"></script>
+  <script src="assets/draft.js"></script>
+  <style>
+    .drawing.lab{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);grid-template-areas:"a b" "a c" "r r";gap:30px}
+    .drawing #vp-a{grid-area:a;height:650px;--h:650px}
+    .drawing #vp-b{grid-area:b}
+    .drawing #vp-c{grid-area:c}
+    .drawing .titleblock{grid-area:r;grid-template-columns:repeat(4,minmax(0,1fr))}
+    .formula{font-size:15px;overflow-x:auto}
+    .figure-help{margin:14px 0 24px;font:12px/1.7 var(--sans);color:var(--ink-2)}
+    .readout-formula{margin:8px 0 0;overflow-x:auto}
+    .vp canvas:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+    .params .param{min-width:210px}
+    @media(max-width:980px){.drawing #vp-a{height:430px;--h:430px}}
+    @media(max-width:760px){.drawing .titleblock{grid-template-columns:repeat(2,minmax(0,1fr))}.params .param{min-width:0}.hero-title h1.latin{font-size:clamp(42px,10vw,74px)}}
+  </style>
+</head>
+<body>
+<main class="sheet">
+  <div class="zones" aria-hidden="true">
+    <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+    <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+    <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+    <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  </div>
+  <div class="frame">
+    <header class="sheet-head">
+      <span class="code">SL · 00</span><span>Specific Learning</span><span class="meta">TOPIC: course · subject</span>
+      <nav class="sheet-nav" aria-label="Learning views">
+        <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+        <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-title">
+        <p class="sub">TOPIC: subtitle</p>
+        <h1 class="latin" aria-label="Topic title"><span class="ch" style="--i:0">Topic</span> <span class="ch" style="--i:1">title</span></h1>
+        <p class="lede">TOPIC: one-sentence lede.</p>
+      </div>
+      <div class="hero-side">
+        <figure class="hero-ascii" role="img" aria-label="TOPIC: ASCII schematic description; not to scale.">
+          <pre aria-hidden="true">TOPIC: ASCII art, max 64 cols x 32 lines.
+----/\--/\--<span class="ascii-accent">|##|</span>--/\--/\---&gt;
+         <span class="ascii-accent">|##|</span></pre>
+          <figcaption>TOPIC: CAPTION · NTS</figcaption>
+        </figure>
+      </div>
+      <aside class="sheet-notes" aria-label="Model notes">
+        <h2>NOTES</h2>
+        <ol>
+          <li><div>TOPIC: assumption, unit or scope note.</div></li>
+        </ol>
+      </aside>
+    </section>
+
+    <div class="section-label" id="experiment"><b>01</b>EXPERIMENT · TOPIC: what is shown</div>
+    <section class="experiment-layout">
+      <aside class="control-rail" aria-label="Experiment controls">
+        <section class="params" aria-label="Barrier and probe parameters">
+          <h2><span class="tag">P</span>Controls</h2>
+          <div class="param">
+            <div class="param-head"><label for="E"><b data-tex="E"></b><span>particle energy</span></label><span class="num"><input id="E-number" data-param="E" aria-label="Particle energy E exact value" type="number" min="0.05" max="4" step="0.01" value="0.5"> eV</span></div>
+            <input class="ruler" id="E" data-param="E" aria-label="Particle energy E" type="range" min="0.05" max="4" step="0.01" value="0.5">
+          </div>
+          <div class="param">
+            <div class="param-head"><label for="V0"><b data-tex="V_0"></b><span>barrier height</span></label><span class="num"><input id="V0-number" data-param="V0" aria-label="Barrier height V zero exact value" type="number" min="0.1" max="4" step="0.01" value="1"> eV</span></div>
+            <input class="ruler" id="V0" data-param="V0" aria-label="Barrier height V zero" type="range" min="0.1" max="4" step="0.01" value="1">
+          </div>
+          <div class="param">
+            <div class="param-head"><label for="a"><b data-tex="a"></b><span>barrier width</span></label><span class="num"><input id="a-number" data-param="a" aria-label="Barrier width a exact value" type="number" min="0" max="1.5" step="0.000001" value="0.5"> nm</span></div>
+            <input class="ruler" id="a" data-param="a" aria-label="Barrier width a" type="range" min="0" max="1.5" step="0.000001" value="0.5">
+          </div>
+          <div class="param">
+            <div class="param-head"><label for="x"><b data-tex="x"></b><span>probe position</span></label><span class="num"><input id="x-number" data-param="x" aria-label="Probe position x exact value" type="number" min="-2" max="3" step="0.01" value="0.25"> nm</span></div>
+            <input class="ruler" id="x" data-param="x" aria-label="Probe position x" type="range" min="-2" max="3" step="0.01" value="0.25">
+          </div>
+          <div class="presets">
+            <span>Presets</span>
+            <button class="btn" id="threshold" type="button"><span class="tag">1</span>Set <span data-tex="E=V_0"></span></button>
+            <button class="btn" id="thin" type="button"><span class="tag">2</span>Zero-width barrier</button>
+            <button class="btn" id="resonance" type="button"><span class="tag">3</span>First transmission resonance</button>
+            <span class="note">Fixed axes keep parameter changes readable.</span>
+          </div>
+        </section>
+        <div class="rail-actions"><button class="btn" id="reset" type="button">Reset defaults</button><button class="btn" id="download" type="button">Download guide</button></div>
+      </aside>
+
+      <div class="experiment-main">
+        <section class="drawing lab" id="drawing">
+          <figure class="vp" id="vp-a">
+            <figcaption><span class="tag">A</span>Potential profile <span data-tex="V(x)"></span> and energy <span data-tex="E"></span></figcaption>
+            <canvas id="cv-a" role="img" aria-describedby="desc-a"></canvas><p class="sr-only" id="desc-a"></p>
+          </figure>
+          <figure class="vp" id="vp-b">
+            <figcaption><span class="tag">B</span><span id="wave-title">Matched density <span data-tex="|\psi|^2"></span></span><span class="tools"><label class="sr-only" for="view">Wavefunction display</label><select id="view"><option value="density">Probability density</option><option value="components">Real and imaginary parts</option></select></span></figcaption>
+            <canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas><p class="sr-only" id="desc-b"></p>
+          </figure>
+          <figure class="vp" id="vp-c">
+            <figcaption><span class="tag">C</span>Energy scan · <span data-tex="T(E)"></span> and <span data-tex="R(E)"></span><span class="tools"><button class="btn small" id="logT" type="button" aria-pressed="false">Log transmission</button></span></figcaption>
+            <canvas id="cv-c" role="img" aria-describedby="desc-c"></canvas><p class="sr-only" id="desc-c"></p>
+          </figure>
+          <aside class="titleblock" aria-label="Current readout" aria-live="polite">
+            <div class="cell wide key"><small>Transmission <span data-tex="T"></span></small><b id="T">—</b></div>
+            <div class="cell wide"><small>Reflection <span data-tex="R"></span></small><b id="R">—</b></div>
+            <div class="cell"><small>Probe position</small><b id="probe-x">—</b></div>
+            <div class="cell"><small>Density ratio</small><b id="density">—</b></div>
+            <div class="cell"><small>Normalized current</small><b id="flux">—</b></div>
+            <div class="cell" id="check-cell"><small>Balance check</small><b id="balance">—</b></div>
+            <div class="cell wide text"><small>Regime</small><b id="regime">—</b></div>
+            <div class="cell wide text"><small>Dynamic formula</small><span class="readout-formula" id="dynamic-formula"></span></div>
+            <div class="cell text"><small>Sheet</small><b>SL-00 · 01</b></div>
+            <div class="cell text"><small>Scale</small><b>Numeric axes · fixed ranges</b></div>
+          </aside>
+        </section>
+        <p class="figure-help">TOPIC: what each panel shows.</p>
+      </div>
+    </section>
+
+    <div class="section-label" id="guide"><b>02</b>DERIVATION · TOPIC: derivation, predictions, pitfalls</div>
+    <section class="notes">
+      <article class="panel">
+        <h2><span class="tag">D</span>TOPIC: definition and derivation</h2>
+        <p>TOPIC: setup, derivation with provenance tags [Standard result] / [Derivation].</p>
+        <div class="formula" data-tex="\text{TOPIC: key formula}"></div>
+      </article>
+      <article class="panel">
+        <h2><span class="tag">E</span>Predict first</h2>
+        <p>TOPIC: two or three prediction questions.</p>
+        <details><summary>Open the observation path and answers</summary><p>TOPIC: answers.</p></details>
+        <h3>Units and scope</h3>
+        <p>TOPIC: units, assumptions, failure limits.</p>
+        <p class="muted">TOPIC: sources.</p>
+      </article>
+    </section>
+
+    <footer class="sheet-foot"><span>Native Canvas 2D; local KaTeX and marked (MIT); all calculations run in the browser.</span><span>Checks: `python viz/check.py` · finite cases support, not proof.</span><span class="status" data-shell-status></span></footer>
+  </div>
+</main>
+
+<div class="reader-overlay" aria-hidden="true" inert>
+  <section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+    <div class="reader-toolbar"><strong id="reader-title"><span class="tag">02</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+    <article class="markdown-body" tabindex="0">Preparing the guide…</article>
+  </section>
+</div>
+
+<script id="lab-model">
+const C = 0.0380998211615486;
+const mul = (a,b) => [a[0]*b[0]-a[1]*b[1], a[0]*b[1]+a[1]*b[0]];
+const add = (a,b) => [a[0]+b[0], a[1]+b[1]];
+const norm = z => z[0]*z[0]+z[1]*z[1];
+const cis = t => [Math.cos(t), Math.sin(t)];
+const MODEL = {
+  cs(q2,z){
+    if(Math.abs(q2*z*z)<1e-7)return [1-q2*z*z/2+q2*q2*z**4/24,z-q2*z**3/6+q2*q2*z**5/120];
+    if(q2>0){const q=Math.sqrt(q2);return [Math.cos(q*z),Math.sin(q*z)/q];}
+    if(q2<0){const k=Math.sqrt(-q2);return [Math.cosh(k*z),Math.sinh(k*z)/k];}
+    return [1,z];
+  },
+  amplitudes(P){
+    const k=Math.sqrt(P.E/C),q2=(P.E-P.V0)/C,[c,s]=this.cs(q2,P.a),di=-(k*k+q2)*s/(2*k),dn=c*c+di*di,B=[c/dn,-di/dn],z=mul(B,[c,-k*s]),r=[z[0]-1,z[1]];
+    return {k,q2,B,r};
+  },
+  wave(x,P){
+    const {k,q2,B,r}=this.amplitudes(P);
+    if(x<0){const incoming=cis(k*x),reflected=mul(r,cis(-k*x));return {p:add(incoming,reflected),der:mul([0,k], [incoming[0]-reflected[0],incoming[1]-reflected[1]])};}
+    if(x>P.a){const p=mul(B,cis(k*(x-P.a)));return {p,der:mul([0,k],p)};}
+    const [c,s]=this.cs(q2,x-P.a);return {p:mul(B,[c,k*s]),der:mul(B,[-q2*s,k*c])};
+  },
+  evaluate(inputs,P){
+    const {k,q2,B,r}=this.amplitudes(P),{p,der}=this.wave(inputs.x,P),T=norm(B),R=norm(r);
+    return {k,q_squared:q2,T,R,balance:T+R,psi_real:p[0],psi_imag:p[1],density:norm(p),flux_ratio:(p[0]*der[1]-p[1]*der[0])/k};
+  }
+};
+globalThis.MODEL = MODEL;
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  'use strict';
+  const D=Draft, K=D.colors(), $=id=>document.getElementById(id), params=document.querySelector('.params');
+  const DEFAULTS={E:.5,V0:1,a:.5,x:.25}, state={...DEFAULTS};
+  const bounds={E:[.05,4],V0:[.1,4],a:[0,1.5],x:[-2,3]};
+  const XR=[-2,3], EMAX=4.4, PAD={t:42,r:24,b:44,l:56}, PAD_C={t:42,r:28,b:44,l:48};
+  let view='density', logT=false, frames={};
+  const clamp=(key,v)=>Math.max(bounds[key][0],Math.min(bounds[key][1],v));
+  const fmt=v=>Math.abs(v)<1e-12?'0':Math.abs(v)<1e-3?v.toExponential(3):v.toFixed(5);
+  const probability=v=>v>0&&v<1e-3?v.toExponential(3):v.toFixed(6);
+  const texNumber=v=>v>0&&v<1e-5?`${v.toExponential(3).replace('e','\\times10^{')+'}'}`:v.toFixed(6);
+  function setText(id,s){$(id).textContent=s;}
+  function update(patch={}){
+    for(const [key,value] of Object.entries(patch))if(key in bounds&&Number.isFinite(value))state[key]=clamp(key,value);
+    D.syncParams(params,state); render();
+  }
+  D.bindParams(params,update);
+  // Draft commits number fields on change; this input listener also makes
+  // keyboard and assistive-technology editing update the shared state at once.
+  for(const el of params.querySelectorAll('input[type=number][data-param]'))el.addEventListener('input',()=>{const n=Number(el.value);if(el.value.trim()!==''&&Number.isFinite(n))update({[el.dataset.param]:n});});
+  D.rulers(params); D.math(); D.shell();
+  function line(c,pts,options={}){D.path(c,pts,options);}
+  function drawA(obs){
+    const cv=$('cv-a'),{c,w,h}=D.setup(cv),bx=D.box(cv,PAD),F=D.frame(bx,XR,[0,EMAX]);
+    const xTicks=[-2,-1,0,1,2,3], yTicks=[0,1,2,3,4], P=state;
+    D.axes(c,F,{xTicks,yTicks,xLabel:'position x / nm',yLabel:'energy / eV',marks:P.a>.04?[{v:P.a,label:'a'}]:[],grid:false});
+    if(P.a>0){c.fillStyle=K.fogWash;c.fillRect(F.X(0),F.Y(P.V0),F.X(P.a)-F.X(0),F.Y(0)-F.Y(P.V0));}
+    const potential=P.a>0?[[F.X(-2),F.Y(0)],[F.X(0),F.Y(0)],[F.X(0),F.Y(P.V0)],[F.X(P.a),F.Y(P.V0)],[F.X(P.a),F.Y(0)],[F.X(3),F.Y(0)]]:[[F.X(-2),F.Y(0)],[F.X(3),F.Y(0)]];
+    line(c,potential,{color:K.ink,width:2}); line(c,[[bx.l,F.Y(P.E)],[bx.r,F.Y(P.E)]],{color:K.accent,width:1.8});
+    const px=F.X(state.x);line(c,[[px,bx.t],[px,bx.b]],{color:K.accent,dash:D.DASH.chain});
+    D.text(c,`E = ${P.E.toFixed(2)} eV`,bx.l+8,F.Y(P.E)-8,{color:K.accentInk});
+    D.text(c,P.a>0?`barrier width a = ${P.a.toFixed(3)} nm`:'zero-width barrier',Math.min(bx.r-4,Math.max(bx.l+10,F.X(Math.max(0,P.a/2)))),F.Y(P.V0)-8,{align:'center',color:K.ink2,font:`11px ${K.sans}`});
+    D.text(c,`probe x = ${state.x.toFixed(2)} nm`,Math.min(bx.r-8,px+10),bx.b-10,{color:K.accentInk,font:`11px ${K.mono}`});
+    $('desc-a').textContent=`Potential profile and selected energy. Barrier height ${P.V0.toFixed(3)} electron volts, width ${P.a.toFixed(3)} nanometers, selected energy ${P.E.toFixed(3)} electron volts, probe ${state.x.toFixed(3)} nanometers.`;
+  }
+  function drawB(obs){
+    const cv=$('cv-b'),{c,w,h}=D.setup(cv),bx=D.box(cv,PAD),components=view==='components';
+    const amp=components?2.4:5, F=D.frame(bx,XR,components?[-amp,amp]:[0,amp]); frames.b=F;
+    D.axes(c,F,{xTicks:[-2,-1,0,1,2,3],yTicks:components?[-2,-1,0,1,2]:[0,1,2,3,4,5].filter(v=>v<=amp),xLabel:'position x / nm',yLabel:components?'wavefunction component':'density ratio',grid:false});
+    if(state.a>0){c.fillStyle=K.fogWash;c.fillRect(F.X(0),bx.t,F.X(state.a)-F.X(0),bx.b-bx.t);}
+    const density=[],real=[],imag=[];
+    for(let i=0;i<=500;i++){const x=XR[0]+(XR[1]-XR[0])*i/500,wv=MODEL.wave(x,state),xx=F.X(x);density.push([xx,F.Y(norm(wv.p))]);real.push([xx,F.Y(wv.p[0])]);imag.push([xx,F.Y(wv.p[1])]);}
+    D.clip(c,bx,()=>{if(components){line(c,real,{color:K.ink,width:1.8});line(c,imag,{color:K.ink,width:1.6,dash:D.DASH.dash});}else line(c,density,{color:K.ink,width:2});});
+    const wv=MODEL.wave(state.x,state), py=F.Y(components?wv.p[0]:obs.density), px=F.X(state.x);
+    line(c,[[px,bx.t],[px,bx.b]],{color:K.accent,dash:D.DASH.chain}); D.dot(c,px,py,{color:K.accent});
+    D.text(c,components?`Re ψ solid · Im ψ dashed`:`|ψ|² = ${obs.density.toFixed(5)}`,bx.r,bx.t-14,{align:'right',color:K.accentInk,font:`11px ${K.mono}`});
+    $('desc-b').textContent=components?`Real and imaginary parts of the matched wavefunction; solid real part, dashed imaginary part; probe x=${state.x.toFixed(3)} nanometers.`:`Matched probability density across the barrier; probe x=${state.x.toFixed(3)} nanometers, density ratio ${obs.density.toFixed(5)}.`;
+  }
+  function drawC(obs){
+    const cv=$('cv-c'),{c,w,h}=D.setup(cv),bx=D.box(cv,PAD_C),lo=logT?-6:0,hi=logT?0:1.1,F=D.frame(bx,[.05,4],[lo,hi]); frames.c=F;
+    D.axes(c,F,{xTicks:[.05,1,2,3,4],yTicks:logT?[-6,-4,-2,0]:[0,.5,1],xLabel:'energy E / eV',yLabel:logT?'log₁₀ probability':'probability',grid:false});
+    const tp=[],rp=[]; for(let i=0;i<=500;i++){const E=.05+(4-.05)*i/500,v=MODEL.evaluate({x:3},{E,V0:state.V0,a:state.a});tp.push([F.X(E),F.Y(logT?Math.log10(Math.max(v.T,1e-6)):v.T)]);rp.push([F.X(E),F.Y(logT?Math.log10(Math.max(v.R,1e-6)):v.R)]);}
+    D.clip(c,bx,()=>{line(c,tp,{color:K.ink,width:2});line(c,rp,{color:K.ink,width:1.7,dash:D.DASH.dot});});
+    const yy=logT?Math.log10(Math.max(obs.T,1e-6)):obs.T,px=F.X(state.E),py=F.Y(yy); line(c,[[px,bx.t],[px,bx.b]],{color:K.accent,width:1.1});D.dot(c,px,py,{color:K.accent});
+    D.text(c,logT?`log₁₀ T = ${Math.log10(Math.max(obs.T,1e-6)).toFixed(3)}`:`T = ${obs.T.toFixed(5)}`,bx.r,bx.t-14,{align:'right',color:K.accentInk,font:`11px ${K.mono}`});
+    $('desc-c').textContent=`Energy scan for transmission and reflection. Selected E=${state.E.toFixed(3)} electron volts, T=${probability(obs.T)}, R=${probability(obs.R)}.${logT?' The vertical axis is log ten probability.':''}`;
+  }
+  function render(){
+    const obs=MODEL.evaluate({x:state.x},state),delta=obs.balance-1;
+    setText('T',probability(obs.T)); setText('R',probability(obs.R)); setText('probe-x',`${state.x.toFixed(3)} nm`); setText('density',fmt(obs.density)); setText('flux',fmt(obs.flux_ratio)); setText('balance',Math.abs(delta)<1e-9?'✓ 1.000000':delta.toExponential(2));
+    const regime=state.E<state.V0-1e-9?'below barrier: evanescent':state.E>state.V0+1e-9?'above barrier: oscillatory':'threshold: linear limit';setText('regime',regime);$('check-cell').classList.toggle('ok',Math.abs(delta)<1e-9);$('check-cell').classList.toggle('fail',Math.abs(delta)>=1e-9);
+    D.setMath($('dynamic-formula'),String.raw`T=${texNumber(obs.T)},\quad R=${texNumber(obs.R)},\quad R+T=${obs.balance.toFixed(8)}`);
+    drawA(obs);drawB(obs);drawC(obs);
+    D.math(document.querySelector('.hero'));D.math(params);D.math(document.querySelector('.notes'));
+  }
+  $('view').addEventListener('change',e=>{view=e.target.value;render();});
+  $('logT').addEventListener('click',()=>{logT=!logT;$('logT').setAttribute('aria-pressed',String(logT));render();});
+  $('reset').addEventListener('click',()=>{view='density';logT=false;$('view').value='density';$('logT').setAttribute('aria-pressed','false');update({...DEFAULTS});});
+  $('threshold').addEventListener('click',()=>update({E:state.V0}));
+  $('thin').addEventListener('click',()=>update({a:0}));
+  $('resonance').addEventListener('click',()=>{const E=Math.min(4,Math.max(state.V0+.3,2)),a=Math.PI*Math.sqrt(C/(E-state.V0));update({E,a:Math.min(1.5,a)});});
+  D.drag($('cv-b'),{hit:(x,y)=>frames.b&&x>=frames.b.box.l&&x<=frames.b.box.r&&y>=frames.b.box.t&&y<=frames.b.box.b?'probe':null,move:(_,x)=>update({x:frames.b.ix(x)})});
+  new ResizeObserver(render).observe($('drawing')); update();
+});
+</script>
+</body>
+</html>

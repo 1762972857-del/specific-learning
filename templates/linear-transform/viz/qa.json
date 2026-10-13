@@ -1,0 +1,33 @@
+[
+ {
+  "name": "rotation preset",
+  "do": [
+   {
+    "click": "[data-preset=rotation]"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#r-Ax"
+   },
+   {
+    "text": "#r-det",
+    "matches": "\\d"
+   }
+  ]
+ },
+ {
+  "name": "exact probe x",
+  "do": [
+   {
+    "fill": "input[type=number][data-param=x]",
+    "value": "2"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#r-Ax"
+   }
+  ]
+ }
+]

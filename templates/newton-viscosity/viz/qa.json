@@ -1,0 +1,36 @@
+[
+ {
+  "name": "opposite plates",
+  "do": [
+   {
+    "click": "#opposite"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ },
+ {
+  "name": "drag probe",
+  "do": [
+   {
+    "drag": "#cv-a",
+    "from": [
+     0.5,
+     0.5
+    ],
+    "to": [
+     0.5,
+     0.3
+    ]
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-b"
+   }
+  ]
+ }
+]

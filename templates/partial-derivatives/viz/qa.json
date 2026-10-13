@@ -1,0 +1,33 @@
+[
+ {
+  "name": "single mode",
+  "do": [
+   {
+    "click": "#single"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#r-T"
+   },
+   {
+    "text": "#r-T",
+    "matches": "\\d"
+   }
+  ]
+ },
+ {
+  "name": "rotate camera",
+  "do": [
+   {
+    "press": "ArrowRight",
+    "on": "#cv-a"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ }
+]

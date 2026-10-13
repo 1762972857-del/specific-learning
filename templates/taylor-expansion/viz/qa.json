@@ -1,0 +1,29 @@
+[
+ {
+  "name": "outside radius",
+  "do": [
+   {
+    "click": "#preset-outside"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ },
+ {
+  "name": "exact degree",
+  "do": [
+   {
+    "fill": "input[type=number][data-param=n]",
+    "value": "8"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ }
+]

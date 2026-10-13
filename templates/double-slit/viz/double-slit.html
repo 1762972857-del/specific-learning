@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPIC: title</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/draft.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/marked/marked.min.js"></script>
+<script src="markdown-bundle.js"></script>
+<script src="assets/draft.js"></script>
+<!-- TOPIC: the workspace layout is this example's choice. Keep page-specific layout here,
+     in the page; draft.css owns tokens and components, not arrangements. -->
+<style>
+.drawing.lab{grid-template-areas:"a a" "b c" "t t";grid-template-columns:minmax(0,2.1fr) minmax(0,1fr)}
+#vp-a{grid-area:a;--h:300px}#vp-b{grid-area:b;--h:400px}#vp-c{grid-area:c;--h:400px}
+.drawing.lab .titleblock{grid-area:t}.lab-caption{font:12px/1.65 var(--sans);color:var(--ink-2);margin:10px 0 26px}
+.experiment-layout{grid-template-areas:"controls main"}
+.experiment-layout>.control-rail{grid-area:controls}
+.experiment-layout>.experiment-main{grid-area:main}
+.params .check{display:flex;gap:8px;align-items:center;font:12px var(--sans);margin:10px 0 0}
+@media(max-width:760px){.experiment-layout{grid-template-areas:"controls" "main"}}
+@media(max-width:700px){.drawing.lab{grid-template-areas:"a" "b" "c" "t"}.drawing.lab{grid-template-columns:minmax(0,1fr)}#vp-a{--h:260px}#vp-b,#vp-c{--h:360px}.hero .lede{max-width:100%}}
+
+</style>
+</head><body>
+<!-- ============ SHELL (shared; keep) ============ -->
+<main class="sheet">
+<div class="zones" aria-hidden="true">
+  <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+</div>
+<div class="frame">
+<header class="sheet-head">
+  <span class="code">SL · 00</span><span>Specific Learning</span><span class="meta">TOPIC: course · subject</span>
+  <nav class="sheet-nav" aria-label="Learning views">
+    <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+    <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+  </nav>
+</header>
+
+<!-- ============ HERO (shared structure; text and ASCII art are per topic) ============ -->
+<section class="hero">
+  <div class="hero-title">
+    <p class="sub">TOPIC: subtitle</p>
+    <h1 aria-label="Topic"><span class="ch latin" style="--i:0" aria-hidden="true">T</span><span class="ch latin" style="--i:1" aria-hidden="true">o</span><span class="ch latin" style="--i:2" aria-hidden="true">p</span><span class="ch latin" style="--i:3" aria-hidden="true">i</span><span class="ch latin" style="--i:4" aria-hidden="true">c</span></h1>
+    <p class="lede">TOPIC: one-sentence lede.</p>
+  </div>
+  <div class="hero-side">
+<figure class="hero-ascii" role="img" aria-label="TOPIC: ASCII schematic of plane waves, a wall with two slits, and a screen with a fringe bar profile; not to scale."><pre aria-hidden="true">  waves     wall                 screen
+               8                    |    .
+               8       <span class="ascii-accent">..--''</span>        |   ###
+  ) ) )        .  <span class="ascii-accent">..--''</span>            |   #
+  ) ) ) -->    8                    |  ####
+  ) ) )        .  <span class="ascii-accent">''--..</span>            |   #
+               8       <span class="ascii-accent">''--..</span>        |   ###
+               8                    |    .</pre><figcaption>TOPIC: CAPTION · NTS</figcaption></figure>
+</div>
+<aside class="sheet-notes" aria-label="Model notes">
+    <h2>NOTES</h2>
+    <!-- TOPIC: assumptions, units, what the picture is not; 3–6 items. -->
+    <ol>
+      <li><div>TOPIC: assumption, unit or scope note.</div></li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ============ WORKSPACE (per topic: views, layout and interaction are free) ============ -->
+<div class="section-label" id="experiment"><b>01</b>EXPERIMENT · TOPIC: what is shown</div>
+<section class="experiment-layout" id="experiment-layout">
+<div class="experiment-main">
+<section class="drawing lab" id="drawing">
+<figure class="vp" id="vp-a"><figcaption><span class="tag">A</span>Path-difference construction · NTS · drag P</figcaption><canvas id="cv-a" role="img" aria-describedby="desc-a"></canvas><p class="sr-only" id="desc-a"></p></figure>
+<figure class="vp" id="vp-b"><figcaption><span class="tag">B</span>Field between slits and screen · fixed axes</figcaption><canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas><p class="sr-only" id="desc-b"></p></figure>
+<figure class="vp" id="vp-c"><figcaption><span class="tag">C</span>Screen profile I(y)</figcaption><canvas id="cv-c" role="img" aria-describedby="desc-c"></canvas><p class="sr-only" id="desc-c"></p></figure>
+<aside class="titleblock" aria-label="Readouts">
+<div class="cell wide key"><small><span class="swatch"></span>Path difference <span data-tex="\Delta=r_2-r_1"></span></small><b id="delta">—</b></div>
+<div class="cell key"><small>Phase <span data-tex="\delta=2\pi\Delta/\lambda"></span></small><b id="phase">—</b></div>
+<div class="cell key"><small>Far field <span data-tex="I/I_0"></span></small><b id="ifar">—</b></div>
+<div class="cell"><small>Exact superposition <span data-tex="I/I_0"></span></small><b id="iexact">—</b></div>
+<div class="cell"><small>Fringe spacing <span data-tex="\lambda L/d"></span></small><b id="spacing">—</b></div>
+<div class="cell"><small>First envelope zero <span data-tex="\lambda L/a"></span></small><b id="zero">—</b></div>
+<div class="cell"><small>Observation height <span data-tex="y"></span></small><b id="yobs">—</b></div>
+<div class="cell wide text"><small>TOPIC: viewing convention</small><b>TOPIC: scale / NTS note.</b></div>
+<div class="cell wide actions"><button class="btn" id="reset" type="button">Reset defaults</button><button class="btn" id="download" type="button">Download Markdown</button></div>
+</aside></section>
+<p class="lab-caption" id="insight" aria-live="polite"><span id="insight-text"></span> <span id="insight-math"></span></p>
+</div>
+<aside class="control-rail">
+<section class="params" aria-label="Experiment conditions"><h2><span class="tag">P</span>Conditions</h2>
+<div class="param"><div class="param-head"><label for="p-lam"><b>λ</b><span>Wavelength</span></label><span class="num"><input aria-label="Exact wavelength" data-param="lam" type="number" min="1" max="3" step="0.1" value="2">mm</span></div><input class="ruler" id="p-lam" data-param="lam" type="range" min="1" max="3" step="0.1" value="2"></div>
+<div class="param"><div class="param-head"><label for="p-d"><b>d</b><span>Slit separation</span></label><span class="num"><input aria-label="Exact slit separation" data-param="d" type="number" min="5" max="12" step="0.1" value="8">mm</span></div><input class="ruler" id="p-d" data-param="d" type="range" min="5" max="12" step="0.1" value="8"></div>
+<div class="param"><div class="param-head"><label for="p-a"><b>a</b><span>Slit width</span></label><span class="num"><input aria-label="Exact slit width" data-param="a" type="number" min="0.4" max="4.5" step="0.1" value="2.4">mm</span></div><input class="ruler" id="p-a" data-param="a" type="range" min="0.4" max="4.5" step="0.1" value="2.4"></div>
+<div class="param"><div class="param-head"><label for="p-L"><b>L</b><span>Screen distance</span></label><span class="num"><input aria-label="Exact screen distance" data-param="L" type="number" min="30" max="100" step="1" value="60">mm</span></div><input class="ruler" id="p-L" data-param="L" type="range" min="30" max="100" step="1" value="60"></div>
+<div class="param"><div class="param-head"><label for="p-y"><b>y</b><span>Observation height</span></label><span class="num"><input aria-label="Exact observation height" data-param="y" type="number" min="-30" max="30" step="0.05" value="11.25">mm</span></div><input class="ruler" id="p-y" data-param="y" type="range" min="-30" max="30" step="0.05" value="11.25"></div>
+<label class="check"><input type="checkbox" data-param="signed"> Signed instantaneous field, not intensity</label>
+<div class="param"><div class="param-head"><label for="p-phase"><b>ωt</b><span>Wave phase (signed view)</span></label><span class="num"><input aria-label="Exact wave phase" data-param="phase" type="number" min="0" max="360" step="5" value="0">°</span></div><input class="ruler" id="p-phase" data-param="phase" type="range" min="0" max="360" step="5" value="0"></div>
+<div class="presets">Presets <button class="btn" id="narrow" type="button"><span class="tag">1</span>Narrow slits</button><button class="btn" id="missing" type="button"><span class="tag">2</span>Missing order a=d/2</button><button class="btn" id="far" type="button"><span class="tag">3</span>Screen far</button><button class="btn" id="short" type="button"><span class="tag">4</span>Short wavelength</button><span class="note">Vermilion = observation point P · ink ramp = intensity · fog-blue / vermilion = signed amplitude − / +</span></div></section>
+</aside>
+</section>
+<div class="section-label"><b>02</b>DERIVATION · TOPIC: derivation, predictions, pitfalls</div>
+<section class="notes">
+<article class="panel"><h2><span class="tag">D</span>TOPIC: definition and derivation</h2>
+<p>TOPIC: definitions, sign conventions, derivation with provenance tags [Standard result] / [Derivation].</p>
+<div class="formula" data-tex="\text{TOPIC: key formula}"></div>
+<h3>Units and scope</h3><p>TOPIC: units, assumptions, failure limits.</p></article>
+<article class="panel"><h2><span class="tag">E</span>Predict first, then operate</h2><p>TOPIC: two or three prediction questions.</p>
+<details><summary>Observation path and answers</summary><p>TOPIC: answers.</p></details>
+<h3>Reading the figure and common pitfalls</h3><p>TOPIC: what each viewport shows and what it does not.</p>
+<p class="muted">TOPIC: sources.</p></article></section>
+<footer class="sheet-foot">
+  <span>All calculations run in the browser; KaTeX and marked are local files (MIT).</span>
+  <span>Verify with <code>python viz/check.py</code> · after guide edits run <code>python viz/bundle_notes.py</code></span>
+  <span class="status" data-shell-status></span>
+</footer>
+</div>
+</main>
+
+<div class="reader-overlay" aria-hidden="true" inert><section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-toolbar"><strong id="reader-title"><span class="tag">MD</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+  <article class="markdown-body"></article>
+</section></div>
+
+<!-- ============ MODEL (per topic; pure, no DOM; compared with model.py by check.py) ============ -->
+<script id="lab-model">
+const MODEL = {
+ M:9,
+ // Complex amplitude sum of 2M in-phase point sources on the wall x=0 (M per slit, spread over width a).
+ amp(x,y,P){
+  const k=2*Math.PI/P.lam;let re=0,im=0;
+  for(const s of [P.d/2,-P.d/2])for(let j=0;j<this.M;j++){const r=Math.hypot(x,y-(s+((j+.5)/this.M-.5)*P.a));re+=Math.cos(k*r);im+=Math.sin(k*r);}
+  return [re,im];
+ },
+ sinc:x=>x===0?1:Math.sin(x)/x,
+ norm(P){const [re,im]=this.amp(P.L,0,P);return Math.hypot(re,im);},
+ field(x,y,P,n){const [re,im]=this.amp(x,y,P);return [re/n,im/n];},   // psi / |psi(L,0)|
+ evaluate(inputs,P){
+  const {y}=inputs,{lam,d,a,L}=P;
+  if(![y,lam,d,a,L].every(Number.isFinite)||Math.min(lam,d,a,L)<=0||a>=d)throw new Error('Invalid model input');
+  const rUp=Math.hypot(L,y-d/2),rLo=Math.hypot(L,y+d/2),pathDiff=rLo-rUp,far=d*y/(lam*L),env=this.sinc(Math.PI*a*y/(lam*L))**2;
+  const [re,im]=this.amp(L,y,P),n=this.norm(P);
+  return {path_diff:pathDiff,phase:2*Math.PI*pathDiff/lam,order:far,path_diff_far:d*y/L,phase_far:2*Math.PI*far,envelope:env,
+   intensity_far:Math.cos(Math.PI*far)**2*env,intensity_exact:(re*re+im*im)/(n*n),fringe_spacing:lam*L/d,envelope_zero:lam*L/a};
+ }
+};globalThis.MODEL=MODEL;
+</script>
+
+<!-- ============ VIEWS ============ -->
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const $=id=>document.getElementById(id),D=Draft,K=D.colors();
+const DEFAULTS={lam:2,d:8,a:2.4,L:60,y:11.25,signed:false,phase:0},state={...DEFAULTS},params=document.querySelector('.params');
+const YMAX=30,XMAX=100,FR={},clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+function update(patch={}){
+ Object.assign(state,patch);
+ if(state.d<=state.a)state.a=Math.round((state.d-.1)*10)/10;   // slits must not overlap
+ D.syncParams(params,state);render();
+}
+const P=()=>({lam:state.lam,d:state.d,a:state.a,L:state.L});
+const f=(v,n=2)=>Math.abs(v)<1e-10?'0':v.toFixed(n);
+const DASHES=D.DASH;
+// ---- A. geometry schematic (NTS): slit gap and angles exaggerated; only y on the screen is to scale.
+function drawGeometry(r){
+ const cv=$('cv-a'),{c}=D.setup(cv),bx=D.box(cv,{t:30,r:46,b:40,l:30}),F=D.frame(bx,[0,1],[-YMAX,YMAX]),W=bx.r-bx.l,mid=F.Y(0);
+ const wx=bx.l+.34*W,sx=bx.r-.12*W,g=10+3*state.d,py=F.Y(state.y);FR.a={F,sx};
+ const S1=[wx,mid-g],S2=[wx,mid+g],Pt=[sx,py],src=[bx.l+14,mid];
+ D.path(c,[[wx,bx.t],[wx,S1[1]-5]],{width:3});D.path(c,[[wx,S1[1]+5],[wx,S2[1]-5]],{width:3});D.path(c,[[wx,S2[1]+5],[wx,bx.b]],{width:3});
+ D.path(c,[[sx,bx.t],[sx,bx.b]],{width:2});D.path(c,[[sx,mid],[sx+8,mid]],{color:K.ink3});
+ for(const S of [S1,S2])D.path(c,[src,S],{color:K.ink4,dash:DASHES.dot});
+ D.dot(c,src[0],src[1],{r:4,color:K.ink});D.text(c,'source',src[0]-6,mid-12,{font:`10px ${K.sans}`});
+ D.text(c,'slits',wx+8,bx.t+12,{font:`10px ${K.sans}`});D.text(c,'screen',sx+6,bx.t+12,{font:`10px ${K.sans}`});
+ for(const S of [S1,S2])D.path(c,[S,Pt],{color:K.ink2,width:1.2});
+ D.text(c,'r₁',(wx+sx)/2,(S1[1]+py)/2-6,{font:`11px ${K.sans}`});D.text(c,'r₂',(wx+sx)/2,(S2[1]+py)/2+14,{font:`11px ${K.sans}`});
+ const d1=Math.hypot(sx-wx,py-S1[1]),d2=Math.hypot(sx-wx,py-S2[1]),near=d1<d2?S1:S2,farS=d1<d2?S2:S1,rs=Math.min(d1,d2),rl=Math.max(d1,d2);
+ if(rl-rs>.5){ // arc about P with the shorter ray as radius; the remainder of the longer ray is the path difference
+  const ang=Math.atan2(farS[1]-py,farS[0]-sx),Q=[sx+(farS[0]-sx)*rs/rl,py+(farS[1]-py)*rs/rl];
+  c.save();c.strokeStyle=K.ink3;c.lineWidth=1;c.setLineDash(DASHES.fine);c.beginPath();c.arc(sx,py,rs,ang-.12,ang+.12);c.stroke();c.restore();
+  D.path(c,[Q,farS],{color:K.accent,width:3.2});D.text(c,'Δ',(Q[0]+farS[0])/2,(Q[1]+farS[1])/2+(farS[1]>py?16:-8),{color:K.accentInk,font:`bold 12px ${K.sans}`});
+ }
+ D.dimV(c,wx-18,S1[1],S2[1],'d');D.dimH(c,wx,sx,bx.b+14,'L');
+ if(Math.abs(py-mid)>12)D.dimV(c,sx+22,mid,py,'y');
+ D.dot(c,sx,py,{color:K.accent,r:5});D.cross(c,sx,py,{color:K.ink});
+ D.text(c,`P: Δ = ${f(r.path_diff,2)} mm = ${f(r.path_diff/state.lam,2)} λ`,sx-12,py<mid?py+22:py-14,{align:'right',color:K.accentInk,font:`11px ${K.sans}`});
+ D.text(c,'NTS: slit gap, L and angles exaggerated',bx.l,bx.b+30,{font:`10px ${K.sans}`});
+ $('desc-a').textContent=`Schematic, not to scale: a source illuminates two slits ${state.d} mm apart; waves travel to screen point P at height ${f(state.y)} mm. Path r2 minus r1 is ${f(r.path_diff,3)} mm, ${f(r.path_diff/state.lam,2)} wavelengths.`;
+}
+// ---- B. 2D field heatmap: |psi|^2 through Draft.ramp, or Re(psi e^{-i wt}) through Draft.signed. Cached per parameter set.
+const heat={key:'',cv:document.createElement('canvas')};
+function drawField(r){
+ const cv=$('cv-b'),{c}=D.setup(cv),bx=D.box(cv,{t:44,r:24,b:50,l:52}),F=D.frame(bx,[0,XMAX],[-YMAX,YMAX]);FR.b={F};
+ const x0=F.X(0),x1=F.X(state.L),yT=F.Y(YMAX),w=Math.round(x1-x0),h=Math.round(F.Y(-YMAX)-yT),cell=state.signed?2:3,p=P();
+ const key=[state.lam,state.d,state.a,state.L,state.signed,state.signed?state.phase:0,w,h].join();
+ if(key!==heat.key){
+  heat.key=key;heat.cv.width=w;heat.cv.height=h;const g=heat.cv.getContext('2d'),n=MODEL.norm(p),ph=state.phase*Math.PI/180;
+  for(let j=0;j*cell<h;j++)for(let i=0;i*cell<w;i++){
+   const [re,im]=MODEL.field((i+.5)*cell/w*state.L,YMAX-(j+.5)*cell/h*2*YMAX,p,n);
+   g.fillStyle=state.signed?D.signed((re*Math.cos(ph)+im*Math.sin(ph))/1.1):D.ramp((re*re+im*im)/1.5);
+   g.fillRect(i*cell,j*cell,cell,cell);
+  }
+ }
+ c.drawImage(heat.cv,x0,yT);
+ D.axes(c,F,{xTicks:[0,20,40,60,80,100],yTicks:[-30,-15,0,15,30],xLabel:'x / mm',yLabel:'y / mm',grid:false});
+ const ya=F.Y(state.d/2+state.a/2),yb=F.Y(state.d/2-state.a/2),yc=F.Y(-state.d/2+state.a/2),yd=F.Y(-state.d/2-state.a/2);
+ for(const s of [[yT,ya],[yb,yc],[yd,F.Y(-YMAX)]])D.path(c,[[x0,s[0]],[x0,s[1]]],{width:4});
+ D.path(c,[[x1,yT],[x1,F.Y(-YMAX)]],{width:2});
+ for(const s of [state.d/2,-state.d/2])D.path(c,[[x0,F.Y(s)],[x1,F.Y(state.y)]],{color:K.ink2,dash:DASHES.fine});
+ D.dimV(c,x0+16,F.Y(state.d/2),F.Y(-state.d/2),'d');
+ D.dot(c,x1,F.Y(state.y),{color:K.accent,r:5});D.leader(c,x1,F.Y(state.y),x1-26,F.Y(state.y)-(state.y>0?-24:24),`P  y=${f(state.y,1)}`,{color:K.accent,textColor:K.accentInk});
+ D.text(c,state.signed?`Re ψe^(−iωt) at ωt = ${state.phase}° · fog −, vermilion +`:'I/I₀ (ink ramp, saturates at 1.5)',bx.r,bx.t-14,{align:'right',font:`10px ${K.sans}`});
+ D.text(c,'wall',x0+6,bx.t+12,{font:`10px ${K.sans}`});D.text(c,'screen',x1,bx.t-4,{align:'center',font:`10px ${K.sans}`});
+ $('desc-b').textContent=`Heat map of ${state.signed?'signed instantaneous amplitude':'intensity'} between the wall at x=0 and the screen at x=${state.L} mm, y from -30 to 30 mm. Slit separation ${state.d} mm, width ${state.a} mm, wavelength ${state.lam} mm. Observation point P at y=${f(state.y)} mm.`;
+}
+// ---- C. screen profile I(y), rotated so y is shared with B
+function drawProfile(r){
+ const cv=$('cv-c'),{c}=D.setup(cv),bx=D.box(cv,{t:44,r:24,b:50,l:48}),F=D.frame(bx,[0,1.1],[-YMAX,YMAX]);FR.c={F};
+ D.axes(c,F,{xTicks:[0,.5,1],yTicks:[-30,-15,0,15,30],xFmt:v=>v.toFixed(1),xLabel:'I / I₀',yLabel:'y / mm',grid:false});
+ const p=P(),ex=[],fa=[],en=[];
+ for(let i=0;i<=180;i++){const y=-YMAX+i/3,e=MODEL.evaluate({y},p);ex.push([F.X(e.intensity_exact),F.Y(y)]);fa.push([F.X(e.intensity_far),F.Y(y)]);en.push([F.X(e.envelope),F.Y(y)]);}
+ D.clip(c,bx,()=>{D.path(c,en,{color:K.ink3,dash:DASHES.dot});D.path(c,fa,{color:K.ink2,dash:DASHES.dash});D.path(c,ex,{width:D.WEIGHT.data});
+  D.path(c,[[bx.l,F.Y(state.y)],[bx.r,F.Y(state.y)]],{color:K.accent,dash:DASHES.chain,width:.8});});
+ D.dot(c,F.X(r.intensity_far),F.Y(state.y),{hollow:true,r:4});D.dot(c,F.X(r.intensity_exact),F.Y(state.y),{color:K.accent,r:4.5});
+ D.leader(c,F.X(r.intensity_exact),F.Y(state.y),F.X(r.intensity_exact)+(r.intensity_exact>.55?-28:28),F.Y(state.y)+(state.y>0?24:-24),`${f(r.intensity_exact)}`,{color:K.accent,textColor:K.accentInk});
+ D.text(c,'solid exact · dashed far (hollow) · dotted envelope',bx.r,bx.t-14,{align:'right',font:`9px ${K.sans}`});
+ $('desc-c').textContent=`Screen intensity versus height on fixed axes. At y=${f(state.y)} mm the exact superposition gives ${f(r.intensity_exact,3)} and the far-field formula ${f(r.intensity_far,3)} of the centre value. Fringe spacing ${f(r.fringe_spacing,1)} mm; first single-slit zero at ${f(r.envelope_zero,1)} mm.`;
+}
+function render(){
+ const r=MODEL.evaluate({y:state.y},P());
+ $('delta').textContent=`${f(r.path_diff,3)} mm = ${f(r.path_diff/state.lam,2)} λ`;$('phase').textContent=`${f(r.phase/Math.PI,2)} π rad`;
+ $('ifar').textContent=f(r.intensity_far,3);$('iexact').textContent=f(r.intensity_exact,3);
+ $('spacing').textContent=`${f(r.fringe_spacing,1)} mm`;$('zero').textContent=`${f(r.envelope_zero,1)} mm`;$('yobs').textContent=`${f(state.y,2)} mm`;
+ const m=r.order,nearInt=Math.abs(m-Math.round(m))<.04,nearHalf=Math.abs(Math.abs(m)%1-.5)<.04;
+ $('insight-text').textContent=Math.abs(state.y)<1e-9?'TOPIC: insight for the axis (zero path difference).':nearInt&&r.envelope<.02?'TOPIC: insight for a fringe killed by the single-slit zero.':nearInt?'TOPIC: insight for a bright fringe.':nearHalf?'TOPIC: insight for a dark fringe.':'TOPIC: default insight.';
+ D.setMath($('insight-math'),String.raw`\text{TOPIC: formula}`);
+ drawGeometry(r);drawField(r);drawProfile(r);
+}
+D.bindParams(params,update);D.rulers();D.math();D.shell();
+for(const [id,key] of [['cv-a','a'],['cv-b','b'],['cv-c','c']])D.drag($(id),{
+ hit:(x,y)=>{const o=FR[key],F=o&&o.F,b=F&&F.box;return b&&x>=b.l-6&&x<=b.r+30&&y>=b.t&&y<=b.b&&(key==='c'||Math.abs(x-(key==='a'?o.sx:F.X(state.L)))<30)?1:null;},
+ move:(_,x,py)=>update({y:Math.round(clamp(FR[key].F.iy(py),-YMAX,YMAX)*20)/20})});
+$('reset').onclick=()=>update({...DEFAULTS});
+$('narrow').onclick=()=>update({a:.4});
+$('missing').onclick=()=>update({a:state.d/2,L:40,y:20});
+$('far').onclick=()=>update({L:100});
+$('short').onclick=()=>update({lam:1});
+$('download').onclick=()=>D.downloadNote('guide');
+new ResizeObserver(()=>render()).observe($('drawing'));update();
+window.lab={state,update,model:MODEL};
+});
+</script></body></html>

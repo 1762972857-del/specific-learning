@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taylor expansion · Local polynomial approximation</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/draft.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/marked/marked.min.js"></script>
+<script src="markdown-bundle.js"></script>
+<script src="assets/draft.js"></script>
+<!-- A and B share a fixed horizontal axis; C uses a logarithmic error axis.
+     Controls stay on the left on desktop and above the plots on mobile. -->
+<style>
+.drawing.lab{grid-template-columns:minmax(0,1fr) 344px;grid-template-areas:"a c" "b c" "t t"}
+#vp-a{grid-area:a;--h:334px}
+#vp-b{grid-area:b;--h:250px}
+#vp-c{grid-area:c;--h:auto;min-height:608px}
+.drawing.lab .titleblock{grid-area:t;grid-template-columns:repeat(4,minmax(0,1fr))}
+.titleblock .cell.wide-2{grid-column:span 2}
+.construction{margin:22px 0 0;padding:16px 18px;border:1px solid var(--ink)}
+.construction h3{margin:0 0 10px;font:600 12.5px/1 var(--sans);letter-spacing:.02em;display:flex;gap:8px;align-items:center}
+.construction .formula{font-size:17px;overflow-x:auto;padding:2px 0}
+.construction p{margin:6px 0 0;font-size:13.5px;color:var(--ink-2)}
+@media(max-width:980px){#vp-c{--h:430px;min-height:0}.drawing.lab .titleblock{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.drawing.lab .titleblock{grid-template-columns:repeat(2,minmax(0,1fr))}.construction{padding:12px}.construction .formula{font-size:15px}}
+
+.drawing.lab{grid-template-columns:minmax(0,1fr) 270px}
+.drawing.lab .titleblock{grid-template-columns:repeat(3,minmax(0,1fr))}
+.drawing.lab .titleblock .cell.text{grid-column:1/-1}
+@media(max-width:1180px){
+  .drawing.lab{grid-template-columns:minmax(0,1fr);grid-template-areas:"a" "b" "c" "t"}
+  #vp-c{--h:340px;min-height:0}
+}
+@media(max-width:760px){
+  .control-rail .param:first-of-type{grid-column:1/-1}
+  .drawing.lab .titleblock{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+</style>
+</head><body>
+<!-- ============ SHELL (shared; keep) ============ -->
+<main class="sheet">
+<div class="zones" aria-hidden="true">
+  <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+</div>
+<div class="frame">
+<header class="sheet-head">
+  <span class="code">SL · TA-01</span><span>Specific Learning</span><span class="meta">CALCULUS · LOCAL APPROXIMATION</span>
+  <nav class="sheet-nav" aria-label="Learning views">
+    <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+    <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-title">
+    <p class="sub">Taylor expansion · Local polynomial approximation</p>
+    <h1 class="latin" aria-label="Taylor expansion">Taylor<br>expansion</h1>
+    <p class="lede">Choose a function and centre <span data-tex="a"></span>, then adjust the degree <span data-tex="n"></span>. Watch <span data-tex="P_n"></span> match one more derivative of <span data-tex="f"></span> at the centre with each new degree. The character diagram shows the defaults: <span data-tex="f=e^x"></span>, <span data-tex="a=0"></span>, <span data-tex="n=4"></span>, probe <span data-tex="x=1"></span>. Orange marks the centre.</p>
+  </div>
+  <figure class="hero-ascii" role="img" aria-label="Character plot of the exponential and its degree-one and degree-four Taylor polynomials centred at zero. All meet at the centre; the fourth-degree polynomial fits across a wider interval.">
+    <pre aria-hidden="true">                      ^                         ..
+                      |                        ..=
+                      |                      ..=
+                      |                     ..=
+                      |                    ..=
+                      |                  ..=
+                      |                ...
+                      |             ....          ~~
+                      |          .*..    ~~~~~~~~~~
+                      |      .....~~~~~~~~
+                      |.......~~~
+          ............<span class="ascii-accent">o</span>.
+----------------------+------------------------------&gt;
+                      0           1
+                      |
+</pre>
+    <figcaption><span data-tex="e^x,P_1,P_4"></span> · default samples · <span data-tex="x\in[-1.8,2.6]"></span> · NTS (character cells are not square)<br><code>.</code> function · <code>=</code> degree 4 · <code>~</code> degree 1 · <code>o</code> centre · <code>*</code> probe</figcaption>
+  </figure>
+  <aside class="sheet-notes" aria-label="Model notes">
+    <h2>NOTES</h2>
+    <ol>
+      <li><div>Real functions of one real variable: <span data-tex="P_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k"></span>. A finite Taylor polynomial is distinct from an infinite series.</div></li>
+      <li><div><span data-tex="x,a\in\mathbb R"></span> are dimensionless. The horizontal range stays at <span data-tex="[-4.5,4.5]"></span>; vertical ranges depend on the chosen function, with ×0.5/×1/×2 settings. Axes do not follow the data.</div></li>
+      <li><div>Curves use 1201 samples across the fixed horizontal range. Segments outside the domain or vertical range break. Readouts use browser double precision, about 15 significant digits.</div></li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ============ WORKSPACE ============ -->
+<div class="section-label" id="experiment"><b>01</b>EXPERIMENT · Function, centre and degree</div>
+<div class="experiment-layout">
+<aside class="control-rail" aria-label="Experiment controls">
+<section class="params" aria-label="Conditions">
+  <h2><span class="tag">P</span>Conditions</h2>
+  <div class="param">
+    <div class="param-head"><label for="p-fid"><b>f</b><span>Target function</span></label></div>
+    <select id="p-fid" data-param="fid">
+      <option value="exp">eˣ</option>
+      <option value="sin">sin x</option>
+      <option value="ln1p">ln(1+x)</option>
+      <option value="sqrt1p">√(1+x)</option>
+      <option value="geom">1/(1+x)</option>
+      <option value="inv1px2">1/(1+x²)</option>
+    </select>
+  </div>
+  <div class="param">
+    <div class="param-head"><label for="p-a"><b>a</b><span>Centre (drag the orange cross in A)</span></label><span class="num"><input aria-label="Exact centre a" data-param="a" type="number" min="-2.5" max="2.5" step="0.05" value="0"></span></div>
+    <input class="ruler" id="p-a" data-param="a" type="range" min="-2.5" max="2.5" step="0.05" value="0">
+  </div>
+  <div class="param">
+    <div class="param-head"><label for="p-n"><b>n</b><span>Polynomial degree</span></label><span class="num"><input aria-label="Exact degree n" data-param="n" type="number" min="0" max="12" step="1" value="4"></span></div>
+    <input class="ruler" id="p-n" data-param="n" type="range" min="0" max="12" step="1" value="4">
+  </div>
+  <div class="param">
+    <div class="param-head"><label for="p-x"><b>x</b><span>Probe (drag in A)</span></label><span class="num"><input aria-label="Exact probe x" data-param="x" type="number" min="-4" max="4" step="0.05" value="1"></span></div>
+    <input class="ruler" id="p-x" data-param="x" type="range" min="-4" max="4" step="0.05" value="1">
+  </div>
+  <div class="param">
+    <div class="param-head"><label for="p-tau"><b>τ</b><span>Tolerance (blue threshold)</span></label></div>
+    <select id="p-tau" data-param="tau">
+      <option value="0.1">1e-1</option>
+      <option value="0.01" selected>1e-2</option>
+      <option value="0.001">1e-3</option>
+      <option value="0.0001">1e-4</option>
+    </select>
+  </div>
+  <div class="param">
+    <div class="param-head"><label for="p-ymag"><b>±</b><span>Vertical range</span></label></div>
+    <select id="p-ymag" data-param="ymag">
+      <option value="0.5">×0.5 (zoom in)</option>
+      <option value="1" selected>×1</option>
+      <option value="2">×2 (zoom out)</option>
+    </select>
+  </div>
+  <div class="presets">Presets
+    <button class="btn" id="preset-steps" type="button"><span class="tag">1</span>Add terms</button>
+    <button class="btn" id="preset-radius" type="button"><span class="tag">2</span>At the radius</button>
+    <button class="btn" id="preset-outside" type="button"><span class="tag">3</span>Outside the radius</button>
+    <button class="btn" id="preset-smooth" type="button"><span class="tag">4</span>Smooth, finite radius</button>
+    <button class="btn" id="preset-recentre" type="button"><span class="tag">5</span>Move the centre</button>
+    <span class="note">Orange = selected centre and probe · fog blue = region within tolerance</span>
+  </div>
+<div class="rail-actions"><button class="btn" id="reset" type="button">Reset</button><button class="btn" id="download" type="button">Download Markdown</button><span class="swatch"></span><small style="display:inline">Orange = selection</small></div>
+</section>
+</aside>
+<div class="experiment-main">
+<section class="drawing lab" id="drawing">
+  <figure class="vp" id="vp-a">
+    <figcaption><span class="tag">A</span>Target function <span data-tex="f"></span> and polynomial <span data-tex="P_n"></span></figcaption>
+    <canvas id="cv-a" role="img" aria-describedby="desc-a"></canvas>
+    <p class="sr-only" id="desc-a"></p>
+  </figure>
+  <figure class="vp" id="vp-b">
+    <figcaption><span class="tag">B</span>Partial sums <span data-tex="P_0,\ldots,P_n"></span> · same horizontal axis as A</figcaption>
+    <canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas>
+    <p class="sr-only" id="desc-b"></p>
+  </figure>
+  <figure class="vp" id="vp-c">
+    <figcaption><span class="tag">C</span>Error by degree · log scale</figcaption>
+    <canvas id="cv-c" role="img" aria-describedby="desc-c"></canvas>
+    <p class="sr-only" id="desc-c"></p>
+  </figure>
+  <aside class="titleblock" aria-label="Readouts and checks" aria-live="polite">
+    <div class="cell key"><small><span class="swatch ink"></span>Target <span data-tex="f(x)"></span></small><b id="read-target">—</b></div>
+    <div class="cell"><small>Polynomial <span data-tex="P_n(x)"></span></small><b id="read-poly">—</b></div>
+    <div class="cell"><small>Error <span data-tex="\lvert f(x)-P_n(x)\rvert"></span></small><b id="read-error">—</b></div>
+    <div class="cell"><small>Relative error / <span data-tex="\lvert f(x)\rvert"></span></small><b id="read-relative">—</b></div>
+    <div class="cell"><small><span class="swatch fog"></span>Valid interval <span data-tex="\lvert R_n\rvert\le\tau"></span></small><b id="read-valid">—</b></div>
+    <div class="cell"><small>Convergence radius <span data-tex="R"></span> (nearest complex singularity)</small><b id="read-radius">—</b></div>
+    <div class="cell" id="cell-gap"><small>Derivative match <span data-tex="0,\ldots,n"></span></small><b id="read-gap">—</b></div>
+    <div class="cell" id="cell-bound"><small>Error ≤ Lagrange bound</small><b id="read-bound">—</b></div>
+    <div class="cell"><small>First nonzero omitted term</small><b id="read-next">—</b></div>
+    <div class="cell text"><small>Scale and viewport</small><b id="read-scale">Fixed x <span id="read-xrange"></span>; y <span id="read-yrange"></span>; <span id="read-ymag"></span>; dimensionless scalars</b></div>
+
+  </aside>
+</section>
+
+
+
+<section class="construction" aria-label="Current polynomial">
+  <h3><span class="tag">M</span>Current polynomial and coefficients</h3>
+  <div class="formula" id="poly-line" data-tex=""></div>
+  <p id="poly-note"><span id="poly-context">Taylor polynomial of <span id="poly-function"></span>, centred at <span id="poly-center"></span>, degree <span id="poly-degree"></span>.</span> Coefficients <span data-tex="c_k=\frac{f^{(k)}(a)}{k!}"></span>; <span id="poly-tail">indices <span id="poly-index"></span>. <span id="poly-omitted"></span></span> Remainder <span data-tex="R_n(x)=f(x)-P_n(x)"></span> appears in C.</p>
+</section>
+
+</div>
+</div>
+
+<div class="section-label"><b>02</b>DERIVATION · Derivation, prediction and pitfalls</div>
+<section class="notes">
+  <article class="panel">
+    <h2><span class="tag">D</span>Definition · Taylor polynomial and remainder</h2>
+    <p>Let <span data-tex="f"></span> have continuous derivatives through order <span data-tex="n+1"></span> on an interval containing the centre <span data-tex="a"></span> and probe <span data-tex="x"></span>. Then:</p>
+    <div class="formula" data-tex="f(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}+R_n(x)"></div>
+    <p>The Lagrange remainder uses some <span data-tex="\xi"></span> between <span data-tex="a"></span> and <span data-tex="x"></span>:</p>
+    <div class="formula" data-tex="R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}"></div>
+    <p><span data-tex="P_n"></span> is the unique polynomial of degree at most <span data-tex="n"></span> with <span data-tex="P^{(k)}(a)=f^{(k)}(a)"></span> for <span data-tex="k=0,\ldots,n"></span>. The derivative-match readout checks this identity. [Standard result] See MIT 18.100A Lecture 20 and the sources in the Guide.</p>
+    <h3>Units and scope</h3>
+    <p><b>Mathematical objects:</b> <span data-tex="f:D\to\mathbb R"></span>, <span data-tex="(x-a)^k"></span> is an integer power and <span data-tex="c_k=f^{(k)}(a)/k!"></span>. The input is dimensionless. The centre must lie inside the domain: for <span data-tex="\ln(1+x),\sqrt{1+x},1/(1+x)"></span> the page restricts <span data-tex="a\in[-0.8,2.5]"></span> to stay clear of <span data-tex="x=-1"></span>.</p>
+    <p><b>Conditions:</b> the remainder bound requires an upper bound on <span data-tex="\lvert f^{(n+1)}\rvert"></span> between the centre and probe. For the analytic functions here, the convergence radius <span data-tex="R"></span> is the distance to the nearest complex singularity. Smoothness on the real axis alone does not guarantee a single expansion works everywhere.</p>
+  </article>
+  <article class="panel">
+    <h2><span class="tag">E</span>Predict before changing</h2>
+    <p>Raise the degree from <span data-tex="n"></span> to <span data-tex="n+1"></span> without moving <span data-tex="a,x"></span>. Must <span data-tex="P_{n+1}(x)"></span> be closer to <span data-tex="f(x)"></span>? Must the blue interval widen? Repeat with a probe satisfying <span data-tex="\lvert x-a\rvert>R"></span>.</p>
+    <details><summary>Observation route and explanation</summary><p>Inside <span data-tex="\lvert x-a\rvert<R"></span>, these analytic functions have Taylor series whose error tends to zero as the degree tends to infinity. This does not imply a decrease at every step. Outside the radius the series diverges; test presets 3 and 4. At <span data-tex="\lvert x-a\rvert=R"></span>, check each point: <span data-tex="\ln(1+x)"></span> still converges at <span data-tex="x=1"></span>, with error asymptotic to <span data-tex="1/(2(n+1))"></span>. Preset 2 shows that slow decay.</p></details>
+    <h3>Pitfalls</h3>
+    <p><b>1. An omitted term is not an upper bound.</b> <span data-tex="\lvert c_{n+1}(x-a)^{n+1}\rvert"></span> only suggests scale. Parity may make it zero: at <span data-tex="a=0"></span>, all odd coefficients of <span data-tex="1/(1+x^2)"></span> vanish. The page searches for the first nonzero omitted term.</p>
+    <p><b>2. Smoothness does not imply a global expansion.</b> <span data-tex="1/(1+x^2)"></span> is real analytic everywhere on the real axis, yet its Taylor series at <span data-tex="a=0"></span> has <span data-tex="R=1"></span> because of the complex poles <span data-tex="\pm i"></span>. The pole of <span data-tex="1/(1+x)"></span> is the real point <span data-tex="x=-1"></span>. Equal radii can have different causes.</p>
+    <p class="muted">Original teaching model and figures. Definitions and conditions checked against the university sources linked in the Guide.</p>
+  </article>
+</section>
+
+<footer class="sheet-foot">
+  <span>All interactive calculations run in your browser. KaTeX and marked are local files (MIT licenses).</span>
+  <span>Verify: <code>python viz/check.py</code> · Rebuild notes: <code>python viz/bundle_notes.py</code></span>
+  <span class="status" data-shell-status></span>
+</footer>
+</div>
+</main>
+
+<div class="reader-overlay" aria-hidden="true" inert><section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-toolbar"><strong id="reader-title"><span class="tag">MD</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+  <article class="markdown-body"></article>
+</section></div>
+
+<!-- MODEL: pure functions, implemented separately from Python; check.py compares selected cases. -->
+<script id="lab-model">
+const MODEL = (() => {
+  const ALPHA = 0.5, N_MAX = 12;
+  const VIEW = {xWindow:[-4.5, 4.5], xProbe:[-4, 4], nMax:N_MAX,
+                taus:[1e-1, 1e-2, 1e-3, 1e-4], ymags:[0.5, 1, 2]};
+  const TABLE = {
+    exp:{tex:'e^{x}', label:'eˣ', aRange:[-2.5, 2.5], yRange:[-2, 12], singularity:null,
+         domain:'ℝ', radius:'∞ (entire)'},
+    sin:{tex:'\\sin x', label:'sin x', aRange:[-2.5, 2.5], yRange:[-2, 2], singularity:null,
+         domain:'ℝ', radius:'∞ (entire)'},
+    ln1p:{tex:'\\ln(1+x)', label:'ln(1+x)', aRange:[-0.8, 2.5], yRange:[-3, 2.5], singularity:-1,
+          domain:'x > -1', radius:'distance from a to x = −1'},
+    sqrt1p:{tex:'\\sqrt{1+x}', label:'\u221a(1+x)', aRange:[-0.8, 2.5], yRange:[-1.5, 2.5], singularity:-1,
+            domain:'x > -1', radius:'distance from a to x = −1'},
+    geom:{tex:'\\dfrac{1}{1+x}', label:'1/(1+x)', aRange:[-0.8, 2.5], yRange:[-4, 4], singularity:-1,
+          domain:'x ≠ -1', radius:'distance from a to the pole x = −1'},
+    inv1px2:{tex:'\\dfrac{1}{1+x^{2}}', label:'1/(1+x²)', aRange:[-2.5, 2.5], yRange:[-1.5, 2.5], singularity:null,
+             domain:'ℝ', radius:'distance from a to complex poles ±i'}
+  };
+  const fact = k => { let f = 1; for (let i = 2; i <= k; i++) f *= i; return f; };
+  const pow = (b, e) => Math.pow(b, e);
+
+  function domainOk(fid, x) {
+    if (fid === 'ln1p' || fid === 'sqrt1p') return x > -1;
+    if (fid === 'geom') return x !== -1;
+    return true;
+  }
+  function fnValue(fid, x) {
+    if (fid === 'exp') return Math.exp(x);
+    if (fid === 'sin') return Math.sin(x);
+    if (fid === 'ln1p') return x > -1 ? Math.log1p(x) : NaN;
+    if (fid === 'sqrt1p') return x >= -1 ? Math.sqrt(1 + x) : NaN;
+    if (fid === 'geom') return x !== -1 ? 1 / (1 + x) : NaN;
+    if (fid === 'inv1px2') return 1 / (1 + x * x);
+    throw new Error('unknown function ' + fid);
+  }
+  function coeffs(fid, a, n) {
+    const out = [];
+    if (fid === 'exp') {
+      const ea = Math.exp(a); let f = 1;
+      for (let k = 0; k <= n; k++) { if (k) f *= k; out.push(ea / f); }
+    } else if (fid === 'sin') {
+      let f = 1;
+      for (let k = 0; k <= n; k++) { if (k) f *= k; out.push(Math.sin(a + k * Math.PI / 2) / f); }
+    } else if (fid === 'ln1p') {
+      out.push(Math.log1p(a));
+      for (let k = 1; k <= n; k++) out.push(pow(-1, k - 1) / (k * pow(1 + a, k)));
+    } else if (fid === 'sqrt1p') {
+      let c = Math.sqrt(1 + a); out.push(c);
+      for (let k = 0; k < n; k++) { c *= (ALPHA - k) / ((k + 1) * (1 + a)); out.push(c); }
+    } else if (fid === 'geom') {
+      let c = 1 / (1 + a); out.push(c);
+      for (let k = 0; k < n; k++) { c *= -1 / (1 + a); out.push(c); }
+    } else if (fid === 'inv1px2') {
+      const d = 1 + a * a; let prev = 0, cur = 1 / d; out.push(cur);
+      for (let k = 0; k < n; k++) { const next = -(2 * a * cur + prev) / d; out.push(next); prev = cur; cur = next; }
+    } else throw new Error('unknown function ' + fid);
+    return out;
+  }
+  function polyValue(cs, a, x) {
+    let v = 0;
+    for (let i = cs.length - 1; i >= 0; i--) v = v * (x - a) + cs[i];
+    return v;
+  }
+  function derivativeAt(fid, a, k) {
+    if (fid === 'exp') return Math.exp(a);
+    if (fid === 'sin') return Math.sin(a + k * Math.PI / 2);
+    if (fid === 'ln1p') return k === 0 ? Math.log1p(a) : pow(-1, k - 1) * fact(k - 1) / pow(1 + a, k);
+    if (fid === 'sqrt1p') { let v = pow(1 + a, ALPHA - k); for (let j = 0; j < k; j++) v *= ALPHA - j; return v; }
+    if (fid === 'geom') return pow(-1, k) * fact(k) / pow(1 + a, k + 1);
+    if (fid === 'inv1px2') {
+      let prev = 0, d = 1 / (1 + a * a);
+      for (let j = 0; j < k; j++) { const next = -(j + 1) * (2 * a * d + j * prev) / (1 + a * a); prev = d; d = next; }
+      return d;
+    }
+    throw new Error('unknown function ' + fid);
+  }
+  function boundM(fid, a, x, n) {
+    const lo = Math.min(a, x), hi = Math.max(a, x);
+    if (fid === 'exp') return Math.exp(hi);
+    if (fid === 'sin') return 1;
+    if (fid === 'ln1p') return lo > -1 ? fact(n) / pow(1 + lo, n + 1) : null;
+    if (fid === 'sqrt1p') {
+      if (!(lo > -1)) return null;
+      let beta = 1; for (let j = 0; j <= n; j++) beta *= ALPHA - j;
+      return Math.abs(beta) * pow(1 + lo, ALPHA - n - 1);
+    }
+    if (fid === 'geom') {
+      if (!(lo > -1 || hi < -1)) return null;
+      const m = Math.min(Math.abs(1 + a), Math.abs(1 + x));
+      return fact(n + 1) / pow(m, n + 2);
+    }
+    if (fid === 'inv1px2') {
+      const m = (lo <= 0 && hi >= 0) ? 0 : Math.min(Math.abs(a), Math.abs(x));
+      return fact(n + 1) / pow(m * m + 1, (n + 2) / 2);
+    }
+    throw new Error('unknown function ' + fid);
+  }
+  function radius(fid, a) {
+    if (fid === 'exp' || fid === 'sin') return null;
+    if (fid === 'inv1px2') return Math.hypot(a, 1);
+    return Math.abs(a + 1);
+  }
+  function evaluate(inputs, P) {
+    const fid = P.fid, a = +P.a, nRaw = +P.n, x = +inputs.x;
+    if (!TABLE[fid]) throw new Error('unknown function ' + fid);
+    const n = Math.round(nRaw);
+    if (!(n >= 0 && n <= N_MAX)) throw new Error('n out of range: ' + nRaw);
+    if (![a, x, nRaw].every(Number.isFinite)) throw new Error('a, x and n must be finite');
+    const blank = {in_domain:0, value:0, target:0, error:0, relative_error:0, derivative_gap:0,
+                   remainder_bound:0, bound_ok:0, next_term:0, radius:0, radius_finite:0, degree:n};
+    if (!(domainOk(fid, x) && domainOk(fid, a))) return blank;
+    const cs = coeffs(fid, a, n);
+    const value = polyValue(cs, a, x), target = fnValue(fid, x);
+    const error = Math.abs(target - value);
+    const relative = Math.abs(target) > 1e-12 ? error / Math.abs(target) : 0;
+    let gap = 0;
+    for (let k = 0; k <= n; k++) {
+      const d = derivativeAt(fid, a, k);
+      gap = Math.max(gap, Math.abs(d - fact(k) * cs[k]) / Math.max(1, Math.abs(d)));
+    }
+    const M = boundM(fid, a, x, n);
+    const bound = M === null ? 0 : M * pow(Math.abs(x - a), n + 1) / fact(n + 1);
+    let scale = 0;
+    for (let k = 0; k <= n; k++) scale = Math.max(scale, Math.abs(cs[k]) * pow(Math.abs(x - a), k));
+    const threshold = 1e-13 * Math.max(1, scale);
+    const tail = coeffs(fid, a, Math.min(n + 6, N_MAX + 6));
+    let nextTerm = 0;
+    for (let j = n + 1; j < tail.length; j++) {
+      const term = Math.abs(tail[j]) * pow(Math.abs(x - a), j);
+      if (term > threshold) { nextTerm = term; break; }
+    }
+    const R = radius(fid, a);
+    return {in_domain:1, value, target, error, relative_error:relative, derivative_gap:gap,
+            remainder_bound:bound, bound_ok:M === null ? 0 : 1, next_term:nextTerm,
+            radius:R === null ? 0 : R, radius_finite:R === null ? 0 : 1, degree:n};
+  }
+  return {VIEW, TABLE, fact, fnValue, coeffs, polyValue, derivativeAt, evaluate};
+})();
+globalThis.MODEL = MODEL;
+</script>
+
+<!-- ============ VIEWS (per topic) ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+const $ = id => document.getElementById(id), D = Draft, K = D.colors(), M = MODEL;
+const VIEW = M.VIEW, TABLE = M.TABLE, N_SAMPLES = 1201;
+const FUNCTION_TEX = {exp:String.raw`e^x`, sin:String.raw`\sin x`, ln1p:String.raw`\ln(1+x)`,
+  sqrt1p:String.raw`\sqrt{1+x}`, geom:String.raw`\frac{1}{1+x}`, inv1px2:String.raw`\frac{1}{1+x^2}`};
+const DEFAULTS = {fid:'exp', a:0, n:4, x:1, tau:0.01, ymag:1};
+const state = {...DEFAULTS};
+const params = document.querySelector('.params');
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+
+function normalize() {
+  if (!TABLE[state.fid]) state.fid = 'exp';
+  const T = TABLE[state.fid];
+  state.a = clamp(+state.a, T.aRange[0], T.aRange[1]);
+  state.n = Math.round(clamp(+state.n, 0, VIEW.nMax));
+  state.x = clamp(+state.x, VIEW.xProbe[0], VIEW.xProbe[1]);
+  state.tau = VIEW.taus.includes(+state.tau) ? +state.tau : 0.01;
+  state.ymag = VIEW.ymags.includes(+state.ymag) ? +state.ymag : 1;
+  if (aRangeKey !== T.aRange.join()) {
+    aRangeKey = T.aRange.join();
+    for (const el of params.querySelectorAll('[data-param="a"]')) { el.min = T.aRange[0]; el.max = T.aRange[1]; }
+    D.rulers(params);
+  }
+}
+let aRangeKey = '';
+function update(patch = {}) { Object.assign(state, patch); normalize(); D.syncParams(params, state); render(); }
+D.bindParams(params, update); D.rulers(); D.math(); D.shell();
+
+
+const xRange = () => VIEW.xWindow;
+const yRange = () => [TABLE[state.fid].yRange[0] * state.ymag, TABLE[state.fid].yRange[1] * state.ymag];
+function sampleColumns(degrees) {
+  const [x0, x1] = xRange(), xs = new Float64Array(N_SAMPLES), f = new Float64Array(N_SAMPLES);
+  const polys = new Map(), caches = new Map();
+  for (const k of degrees) { polys.set(k, new Float64Array(N_SAMPLES)); caches.set(k, M.coeffs(state.fid, state.a, k)); }
+  for (let i = 0; i < N_SAMPLES; i++) {
+    const x = x0 + (x1 - x0) * i / (N_SAMPLES - 1);
+    xs[i] = x;
+    const v = M.fnValue(state.fid, x);
+    f[i] = Number.isFinite(v) ? v : NaN;
+    for (const k of degrees) polys.get(k)[i] = M.polyValue(caches.get(k), state.a, x);
+  }
+  return {xs, f, polys};
+}
+/* Rendering helper. */
+function runs(xs, ys, F, cut) {
+  const out = []; let cur = null;
+  for (let i = 0; i < xs.length; i++) {
+    const v = ys[i];
+    if (Number.isFinite(v) && Math.abs(v) <= cut) { if (!cur) out.push(cur = []); cur.push([F.X(xs[i]), F.Y(v)]); }
+    else cur = null;
+  }
+  return out;
+}
+function drawRuns(c, F, bx, xs, ys, opts) {
+  D.clip(c, bx, () => { for (const run of runs(xs, ys, F, opts.cut)) D.path(c, run, opts); });
+}
+/* Rendering helper. */
+function endLabel(c, F, bx, xs, ys, text, used) {
+  const span = F.y[1] - F.y[0];
+  for (let i = xs.length - 1; i >= 0; i--) {
+    const v = ys[i];
+    if (!Number.isFinite(v) || v < F.y[0] + .04 * span || v > F.y[1] - .06 * span) continue;
+    if (F.X(xs[i]) < bx.l + 30) return;
+    let y = F.Y(v);
+    while (used.some(u => Math.abs(u - y) < 15)) y += 16;
+    y = Math.min(y, bx.b - 6);
+    used.push(y);
+    D.path(c, [[F.X(xs[i]), F.Y(v)], [bx.r + 14, y]], {color:K.ink3, width:.75, dash:D.DASH.fine});
+    D.text(c, text, bx.r + 18, y + 4, {font:`italic 12px ${K.serif}`});
+    return;
+  }
+}
+function numberOf(v) {
+  if (!Number.isFinite(v)) return '—';
+  const a = Math.abs(v);
+  return (a !== 0 && (a < 1e-2 || a >= 1e4)) ? v.toExponential(2) : v.toFixed(4);
+}
+/* Rendering helper. */
+function sub(n) { return String(n).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[+d]).join(''); }
+const pName = k => `P${sub(k)}`;
+
+
+const YM = {t:34, r:100, b:46, l:58};
+let FA = null, FB = null;
+function drawA(sample, valid, radiusInfo) {
+  const cv = $('cv-a'), {c} = D.setup(cv), bx = D.box(cv, YM), [x0, x1] = xRange(), yr = yRange();
+  FA = D.frame(bx, [x0, x1], yr);
+  const xt = D.ticks(x0, x1, 6), yt = D.ticks(yr[0], yr[1], 5);
+  const span = yr[1] - yr[0], cut = 30 * span;
+
+  if (valid) D.poly(c, [[FA.X(valid.lo), bx.t], [FA.X(valid.hi), bx.t], [FA.X(valid.hi), bx.b], [FA.X(valid.lo), bx.b]], {fill:K.fogWash});
+  D.axes(c, FA, {xTicks:xt.values, yTicks:yt.values, xFmt:v => D.fmt(v, xt.step), yFmt:v => D.fmt(v, yt.step),
+                 xLabel:'x', yLabel:'y', origin:true});
+  const T = TABLE[state.fid];
+
+  if (T.singularity !== null && T.singularity >= x0 && T.singularity <= x1) {
+    const sx = Math.round(FA.X(T.singularity)) + .5;
+    D.path(c, [[sx, bx.t], [sx, bx.b]], {color:K.ink2, width:.75, dash:D.DASH.chain});
+    D.text(c, state.fid === 'geom' ? 'pole x = −1' : 'domain boundary x = −1', sx + 5, bx.t + 12, {color:K.ink2, font:`10.5px ${K.sans}`});
+  }
+
+  if (radiusInfo.finite) {
+    const lo = Math.max(x0, state.a - radiusInfo.R), hi = Math.min(x1, state.a + radiusInfo.R);
+    const y = bx.t + 26;
+    if (hi > lo) {
+      D.path(c, [[FA.X(lo), y], [FA.X(hi), y]], {color:K.ink2, width:.75, dash:D.DASH.chain});
+      for (const v of [lo, hi]) D.path(c, [[FA.X(v), y - 5], [FA.X(v), y + 5]], {color:K.ink2, width:.75});
+      const mid = clamp(FA.X(state.a), bx.l + 70, bx.r - 70);
+      D.text(c, `Convergence interval |x − a| < R = ${radiusInfo.R.toFixed(3)}${hi < state.a + radiusInfo.R ? ' (right edge clipped)' : ''}${lo > state.a - radiusInfo.R ? ' (left edge clipped)' : ''}`,
+             mid, y - 6, {align:'center', color:K.ink2, font:`10.5px ${K.sans}`});
+    }
+  }
+
+  drawRuns(c, FA, bx, sample.xs, sample.f, {color:K.ink, width:D.WEIGHT.data, cut});
+  drawRuns(c, FA, bx, sample.xs, sample.polys.get(state.n), {color:K.ink, width:D.WEIGHT.data, dash:D.DASH.dash, cut});
+  const used = [];
+  endLabel(c, FA, bx, sample.xs, sample.polys.get(state.n), pName(state.n), used);
+  endLabel(c, FA, bx, sample.xs, sample.f, 'f', used);
+
+  const ax = Math.round(FA.X(state.a)) + .5, ay = FA.Y(M.fnValue(state.fid, state.a));
+  D.path(c, [[ax, bx.t], [ax, bx.b]], {color:K.accent, width:.75, dash:D.DASH.chain});
+  D.cross(c, ax, Math.max(bx.t + 12, Math.min(bx.b - 12, ay)), {color:K.accent, r:7});
+  D.text(c, `a = ${state.a.toFixed(2)}`, ax + (ax > bx.r - 60 ? -6 : 6), bx.b - 6,
+         {align:ax > bx.r - 60 ? 'right' : 'left', color:K.accentInk, font:`10.5px ${K.mono}`});
+
+  if (sample.insideX) {
+    const px = FA.X(state.x), fy = FA.Y(sample.fx), py = FA.Y(sample.px);
+    D.dot(c, px, fy, {color:K.accent});
+    D.dot(c, px, py, {color:K.ink, hollow:true});
+    const away = px > (bx.l + bx.r) / 2 ? -1 : 1;
+    const tx = clamp(px + away * 96, bx.l + 60, bx.r + 30), ty = clamp(Math.min(fy, py) - 34, bx.t + 16, bx.b - 16);
+    if (Math.abs(fy - py) >= 15) {
+      D.dimV(c, px + (away > 0 ? -12 : 12), fy, py, `|R| = ${sample.error.toExponential(2)}`);
+    }
+    D.leader(c, px, fy, tx, ty, `f(${state.x.toFixed(2)}) = ${numberOf(sample.fx)}`, {color:K.accent, textColor:K.accentInk});
+    D.text(c, `${pName(state.n)} = ${numberOf(sample.px)}`, px + 8, py + 14, {color:K.ink2, font:`10.5px ${K.mono}`});
+  }
+
+  if (valid) {
+    const label = valid.lo === x0 || valid.hi === x1 ? `Valid interval ≥ ${(valid.hi - valid.lo).toFixed(3)} (clipped at edge)` : `Valid interval Δx = ${(valid.hi - valid.lo).toFixed(3)}`;
+    D.dimH(c, FA.X(valid.lo), FA.X(valid.hi), bx.b + 24, label, {ext:bx.b});
+  }
+  $('desc-a').textContent = `View A: f(x) = ${T.label}, degree ${state.n} Taylor polynomial centred at a=${state.a.toFixed(2)}. ` +
+    (sample.insideX ? `At probe x=${state.x.toFixed(2)}: target ${numberOf(sample.fx)}, polynomial ${numberOf(sample.px)}, error ${sample.error.toExponential(2)}. ` : 'Probe outside the domain. ') +
+    (valid ? `Interval within tolerance ${state.tau}: ${valid.lo.toFixed(3)} to ${valid.hi.toFixed(3)}.` : 'No interval within the current tolerance.');
+
+}
+
+
+function drawB(sample) {
+  const cv = $('cv-b'), {c} = D.setup(cv), bx = D.box(cv, {t:30, r:YM.r, b:40, l:YM.l});
+  const [x0, x1] = xRange(), yr = yRange();
+  FB = D.frame(bx, [x0, x1], yr);
+  const xt = D.ticks(x0, x1, 6), yt = D.ticks(yr[0], yr[1], 4), span = yr[1] - yr[0];
+  D.axes(c, FB, {xTicks:xt.values, yTicks:yt.values, xFmt:v => D.fmt(v, xt.step), yFmt:v => D.fmt(v, yt.step),
+                 xLabel:'x', yLabel:'y', origin:true});
+  drawRuns(c, FB, bx, sample.xs, sample.f, {color:K.ink, width:D.WEIGHT.data, cut:30 * span});
+  for (let k = 0; k <= state.n; k++) {
+    if (k === state.n) continue;
+    drawRuns(c, FB, bx, sample.xs, sample.polys.get(k), {color:K.ink, width:D.WEIGHT.fine, cut:30 * span});
+  }
+  drawRuns(c, FB, bx, sample.xs, sample.polys.get(state.n), {color:K.ink, width:D.WEIGHT.data, dash:D.DASH.dash, cut:30 * span});
+  const used = [];
+  endLabel(c, FB, bx, sample.xs, sample.polys.get(state.n), pName(state.n), used);
+  if (state.n > 0) endLabel(c, FB, bx, sample.xs, sample.polys.get(0), pName(0), used);
+  endLabel(c, FB, bx, sample.xs, sample.f, 'f', used);
+  const ax = Math.round(FB.X(state.a)) + .5;
+  D.path(c, [[ax, bx.t], [ax, bx.b]], {color:K.accent, width:.75, dash:D.DASH.chain});
+  if (sample.insideX) D.dot(c, FB.X(state.x), FB.Y(sample.fx), {color:K.accent});
+  $('desc-b').textContent = `View B: ${state.n + 1} partial sums from P0 to ${pName(state.n)} and f, sharing the horizontal axis of A. All curves meet at a=${state.a.toFixed(2)}.`;
+}
+
+
+function drawC(errors) {
+  const cv = $('cv-c'), {c} = D.setup(cv), bx = D.box(cv, {t:36, r:26, b:46, l:64});
+  const FLOOR = 1e-14, TOP = 1e2;
+  const F = D.frame(bx, [0, VIEW.nMax], [FLOOR, TOP], {logY:true});
+  const yt = [1e-14, 1e-12, 1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1e0, 1e2];
+  const lab = v => v >= 1 ? String(v) : '1e' + Math.round(Math.log10(v));
+  D.axes(c, F, {xTicks:[0, 2, 4, 6, 8, 10, 12], yTicks:yt, yFmt:lab, xLabel:'degree n',
+                yLabel:'|f(x) − Pₙ(x)|'});
+
+  const tauY = F.Y(state.tau);
+  D.poly(c, [[bx.l, tauY], [bx.r, tauY], [bx.r, tauY + 20], [bx.l, tauY + 20]], {fill:K.fogWash});
+  D.path(c, [[bx.l, tauY], [bx.r, tauY]], {color:K.ink, width:.75, dash:D.DASH.chain});
+  D.text(c, `Tolerance τ = ${state.tau}; blue = acceptable`, bx.l + 4, tauY + 14, {color:K.ink2, font:`10px ${K.sans}`});
+  if (!errors) {
+    D.text(c, 'Probe outside domain: f is undefined', (bx.l + bx.r) / 2, (bx.t + bx.b) / 2, {align:'center', color:K.accentInk, font:`12px ${K.sans}`});
+    $('desc-c').textContent = 'View C: probe x=' + state.x.toFixed(2) + ' is outside the current domain; no error curve can be drawn.';
+    return;
+  }
+  const pts = [], clamped = [];
+  for (let k = 0; k <= VIEW.nMax; k++) {
+    const raw = errors[k];
+    if (raw < FLOOR) clamped.push(k);
+    pts.push([F.X(k), F.Y(clamp(raw, FLOOR, TOP))]);
+  }
+  D.path(c, pts, {color:K.ink, width:D.WEIGHT.data});
+  for (const [x, y] of pts) D.dot(c, x, y, {r:2.2});
+  D.dot(c, F.X(state.n), F.Y(clamp(errors[state.n], FLOOR, TOP)), {color:K.accent, r:3.6});
+  D.path(c, [[F.X(state.n), bx.t], [F.X(state.n), bx.b]], {color:K.accent, width:.75, dash:D.DASH.chain});
+  const right = F.X(state.n) + 6 < bx.r - 96;
+  D.text(c, `n = ${state.n} · ${numberOf(errors[state.n])}`, F.X(state.n) + (right ? 6 : -6), bx.t + 12,
+         {align:right ? 'left' : 'right', color:K.accentInk, font:`10.5px ${K.mono}`});
+  if (clamped.length) D.text(c, `n = ${clamped.join(', ')} error below ${FLOOR}; drawn at the floor`, bx.l + 2, bx.b - 8, {color:K.ink2, font:`10px ${K.sans}`});
+  $('desc-c').textContent = `View C: error at probe x=${state.x.toFixed(2)} for degrees zero through twelve, on a logarithmic vertical axis. ` +
+    `Current error ${numberOf(errors[state.n])}; tolerance ${state.tau}. Values below the line meet the tolerance at this probe.`;
+}
+
+
+function numTex(v) {
+  const rounded = Number(v.toPrecision(4)), magnitude = Math.abs(rounded);
+  if (magnitude && (magnitude < 1e-3 || magnitude >= 1e4)) {
+    const [mantissa, exponent] = rounded.toExponential().split('e');
+    return `${mantissa}\\times10^{${Number(exponent)}}`;
+  }
+  return String(rounded);
+}
+function powTex(k, a) {
+  if (k === 0) return '';
+  const shift = a === 0 ? 'x' : `(x ${a > 0 ? '-' : '+'} ${numTex(Math.abs(a))})`;
+  return k === 1 ? shift : `${shift}^{${k}}`;
+}
+function polyTex() {
+  const n = state.n, a = state.a, cs = M.coeffs(state.fid, a, n);
+  const scale = Math.max(1e-300, ...cs.map(Math.abs));
+  const terms = [];
+  for (let k = 0; k <= n; k++) if (Math.abs(cs[k]) > 1e-12 * scale) terms.push([k, cs[k]]);
+  const shown = terms.slice(0, 6);
+  let body = '';
+  shown.forEach(([k, c], i) => {
+    const mag = Math.abs(c), sign = c < 0 ? '-' : '+';
+    const coef = (mag === 1 && k > 0) ? '' : numTex(mag);
+    body += (i === 0 ? (sign === '-' ? '-' : '') : ` ${sign} `) + coef + powTex(k, a);
+  });
+  if (!shown.length) body = '0';
+  else if (terms.length > shown.length) body += ' + \\cdots';
+  return {tex:`P_{${n}}(x) = ${body}`, hiddenTerms:terms.length - shown.length};
+}
+function drawFormula() {
+  const n = state.n, expression = polyTex();
+  D.setMath($('poly-line'), expression.tex);
+  D.setMath($('poly-function'), `f(x)=${FUNCTION_TEX[state.fid]}`);
+  D.setMath($('poly-center'), `a=${state.a.toFixed(2)}`);
+  D.setMath($('poly-degree'), String(n));
+  D.setMath($('poly-index'), `k=0,\\ldots,${n}`);
+  $('poly-omitted').textContent = (expression.hiddenTerms > 0
+    ? `Display omits ${expression.hiddenTerms} nonzero terms; all terms remain in the calculation.` : '');
+}
+
+
+function render() {
+  const T = TABLE[state.fid];
+  const r = M.evaluate({x:state.x}, {fid:state.fid, a:state.a, n:state.n, tau:state.tau, ymag:state.ymag});
+  const radiusInfo = {finite:!!r.radius_finite, R:r.radius_finite ? r.radius : Infinity};
+  const degrees = Array.from({length: state.n + 1}, (_, k) => k);
+  const sample = sampleColumns(degrees);
+  sample.fx = M.fnValue(state.fid, state.x);
+  sample.px = r.value;
+  sample.error = r.error;
+  sample.insideA = r.in_domain > 0;
+  sample.insideX = r.in_domain > 0 && Number.isFinite(sample.fx);
+
+  const errs = new Float64Array(N_SAMPLES);
+  const poly = sample.polys.get(state.n);
+  for (let i = 0; i < N_SAMPLES; i++) errs[i] = Math.abs(sample.f[i] - poly[i]);
+  let centre = 0, best = Infinity;
+  for (let i = 0; i < N_SAMPLES; i++) { const d = Math.abs(sample.xs[i] - state.a); if (d < best) { best = d; centre = i; } }
+  let valid = null;
+  if (errs[centre] <= state.tau) {
+    const cross = (i, j) => sample.xs[i] + (sample.xs[j] - sample.xs[i]) * clamp((state.tau - errs[i]) / (errs[j] - errs[i]), 0, 1);
+    let i = centre; while (i > 0 && errs[i - 1] <= state.tau) i--;
+    let j = centre; while (j < N_SAMPLES - 1 && errs[j + 1] <= state.tau) j++;
+    valid = {lo:i > 0 ? cross(i, i - 1) : VIEW.xWindow[0], hi:j < N_SAMPLES - 1 ? cross(j, j + 1) : VIEW.xWindow[1]};
+  }
+
+  const errors = r.in_domain ? Array.from({length: VIEW.nMax + 1}, (_, k) =>
+    M.evaluate({x:state.x}, {fid:state.fid, a:state.a, n:k, tau:state.tau, ymag:state.ymag}).error) : null;
+
+  $('read-target').textContent = r.in_domain ? numberOf(r.target) : 'Outside domain';
+  $('read-poly').textContent = r.in_domain ? numberOf(r.value) : '—';
+  $('read-error').textContent = r.in_domain ? numberOf(r.error) : '—';
+  $('read-relative').textContent = r.in_domain ? (r.relative_error === 0 ? '0' : r.relative_error.toExponential(2)) : '—';
+  $('read-valid').textContent = valid ? `${(valid.hi - valid.lo).toFixed(3)} (${valid.lo.toFixed(2)} … ${valid.hi.toFixed(2)})` : 'No valid interval';
+  $('read-radius').textContent = r.radius_finite ? r.radius.toFixed(3) : '∞ (entire)';
+  const gapOk = r.derivative_gap < 1e-9;
+  $('read-gap').textContent = gapOk ? `Max deviation ${r.derivative_gap.toExponential(1)}` : `Deviation ${r.derivative_gap.toExponential(2)}`;
+  $('cell-gap').classList.toggle('ok', gapOk);
+  $('cell-gap').classList.toggle('fail', !gapOk);
+  delete $('read-bound').dataset.tex;
+  if (!r.in_domain) { $('read-bound').textContent = '—'; $('cell-bound').classList.remove('ok', 'fail'); }
+  else if (!r.bound_ok) { $('read-bound').textContent = 'N/A (interval crosses a singularity)'; $('cell-bound').classList.remove('ok', 'fail'); }
+  else {
+    const boundOk = r.error <= r.remainder_bound * (1 + 1e-9) + 1e-15;
+    D.setMath($('read-bound'), `${numTex(r.error)}\\le ${numTex(r.remainder_bound)}`);
+    $('cell-bound').classList.toggle('ok', boundOk);
+    $('cell-bound').classList.toggle('fail', !boundOk);
+  }
+  $('read-next').textContent = r.in_domain ? numberOf(r.next_term) : '—';
+  const yr = yRange();
+  D.setMath($('read-xrange'), `x\\in[${VIEW.xWindow[0]},${VIEW.xWindow[1]}]`);
+  D.setMath($('read-yrange'), `y\\in[${yr[0]},${yr[1]}]`);
+  $('read-ymag').textContent = `Range ×${state.ymag}`;
+
+  drawA(sample, valid, radiusInfo);
+  drawB(sample);
+  drawC(errors);
+  drawFormula();
+}
+
+
+D.drag($('cv-a'), {
+  hit:(px, py) => {
+    if (!FA || px < FA.box.l || px > FA.box.r || py < FA.box.t || py > FA.box.b) return null;
+    return Math.abs(px - FA.X(state.a)) < 14 ? 'a' : 'x';
+  },
+  move:(handle, px) => {
+    const v = Number((Math.round(FA.ix(px) / 0.05) * 0.05).toFixed(2));
+    update(handle === 'a' ? {a:v} : {x:v});
+  },
+});
+const PRESETS = {
+  steps:{fid:'exp', a:0, n:1, x:1, tau:0.01, ymag:1},
+  radius:{fid:'ln1p', a:0, n:8, x:1, tau:0.01, ymag:1},
+  outside:{fid:'ln1p', a:0, n:8, x:1.5, tau:0.01, ymag:1},
+  smooth:{fid:'inv1px2', a:0, n:8, x:1.5, tau:0.01, ymag:1},
+  recentre:{fid:'exp', a:1.5, n:3, x:-1, tau:0.01, ymag:1},
+};
+for (const [key, patch] of Object.entries(PRESETS)) $(`preset-${key}`).addEventListener('click', () => update({...patch}));
+$('reset').addEventListener('click', () => update({...DEFAULTS}));
+$('download').addEventListener('click', () => D.downloadNote('guide'));
+new ResizeObserver(() => render()).observe($('drawing'));
+update();
+});
+</script>
+</body></html>

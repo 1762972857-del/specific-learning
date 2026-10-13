@@ -1,0 +1,29 @@
+[
+ {
+  "name": "thin barrier",
+  "do": [
+   {
+    "click": "#thin"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ },
+ {
+  "name": "exact energy",
+  "do": [
+   {
+    "fill": "#E-number",
+    "value": "2"
+   }
+  ],
+  "expect": [
+   {
+    "changed": "#cv-a"
+   }
+  ]
+ }
+]

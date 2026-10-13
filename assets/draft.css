@@ -1,0 +1,256 @@
+/* Drafting-sheet presentation shared by topic labs. No external dependencies.
+   Ink on paper; vermilion = current selection, fog blue = region.
+   Colour literals live only in :root; everything else uses var(--…). */
+:root{
+  color-scheme:light;
+  --paper:#ECEAE3;--paper-2:#E3E0D6;
+  --ink:#1B1B19;--ink-2:rgb(27 27 25 / 66%);--ink-3:rgb(27 27 25 / 32%);--ink-4:rgb(27 27 25 / 14%);
+  --accent:#D4572A;--accent-ink:#B4441C;--accent-wash:rgb(212 87 42 / 22%);
+  --fog:#8FA8BF;--fog-wash:rgb(143 168 191 / 30%);
+  --title:"Songti SC","Noto Serif SC","STSong","SimSun",serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Songti SC","Noto Serif SC",serif;
+  --sans:ui-sans-serif,-apple-system,"SF Pro Text","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --margin:22px;--gap:30px;
+}
+/* CJK regions: the default stacks above serve Simplified Chinese; override by <html lang>. */
+:root:lang(zh-Hant),:root:lang(zh-TW),:root:lang(zh-HK){
+  --title:"Songti TC","PMingLiU","Noto Serif TC",serif;
+  --serif:"Iowan Old Style",Palatino,"Songti TC","Noto Serif TC",serif;
+  --sans:ui-sans-serif,-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+:root:lang(ja){
+  --title:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  --serif:"Iowan Old Style",Palatino,"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  --sans:ui-sans-serif,-apple-system,"Hiragino Sans","Yu Gothic","Noto Sans JP",system-ui,sans-serif}
+:root:lang(ko){
+  --title:"AppleMyungjo","Nanum Myeongjo","Noto Serif KR",serif;
+  --serif:"Iowan Old Style",Palatino,"AppleMyungjo","Nanum Myeongjo","Noto Serif KR",serif;
+  --sans:ui-sans-serif,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:16px/1.65 var(--serif);
+  background:var(--paper) radial-gradient(ellipse 120% 90% at 50% 40%,transparent 62%,var(--ink-4) 160%) fixed}
+a{color:var(--ink);text-underline-offset:3px}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- sheet: outer trim line, zone margin, inner frame ---------- */
+.sheet{position:relative;max-width:1480px;margin:18px auto;border:1px solid var(--ink-3);padding:var(--margin)}
+.sheet>.frame{position:relative;border:1.5px solid var(--ink);padding:0 34px 26px}
+.zones{position:absolute;inset:0;pointer-events:none;font:500 10px/1 var(--mono);color:var(--ink-2)}
+.zones .zx,.zones .zy{position:absolute;display:flex}
+.zones .zx{left:var(--margin);right:var(--margin);height:var(--margin)}
+.zones .zx.top{top:0}.zones .zx.bottom{bottom:0}
+.zones .zy{top:var(--margin);bottom:var(--margin);width:var(--margin);flex-direction:column}
+.zones .zy.left{left:0}.zones .zy.right{right:0}
+.zones span{flex:1;display:grid;place-items:center}
+.zones .zx span+span{border-left:1px solid var(--ink-3)}
+.zones .zy span+span{border-top:1px solid var(--ink-3)}
+
+/* ---------- sheet header: sheet code, field, view tabs ---------- */
+.sheet-head{display:flex;align-items:center;gap:22px;min-height:46px;border-bottom:1px solid var(--ink-3);margin:0 -34px;padding:0 34px;font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.sheet-head .code{font-family:var(--mono);letter-spacing:.06em}
+.sheet-head .meta{color:var(--ink-2)}
+.sheet-nav{margin-left:auto;display:flex;align-self:stretch}
+.sheet-nav a{display:flex;align-items:center;gap:8px;padding:0 18px;text-decoration:none;color:var(--ink-2);border-left:1px solid var(--ink-3);position:relative}
+.sheet-nav a b{font:600 10px/1 var(--mono);color:var(--ink-3)}
+.sheet-nav a.active{color:var(--ink)}
+.sheet-nav a.active b{color:var(--accent-ink)}
+.sheet-nav a.active::after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:2px;background:var(--accent)}
+
+/* ---------- hero: title left, separate ASCII art right; stacked on mobile ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:42px;padding:58px 0 40px;align-items:start}
+.hero-title{min-width:0}
+.hero-title .sub{margin:0 0 14px;font:500 clamp(15px,1.7vw,20px)/1.3 var(--serif);letter-spacing:.32em;color:var(--ink-2)}
+.hero-title h1{margin:0;font:700 clamp(40px,7.2vw,108px)/1.12 var(--title);letter-spacing:.04em;color:var(--ink);overflow-wrap:anywhere}
+.hero-title h1 .ch{display:inline-block}
+.hero-title h1.latin{letter-spacing:0}
+.hero-title .lede{max-width:58ch;margin:34px 0 0;font-size:16.5px;line-height:1.8;color:var(--ink-2)}
+.hero-side{min-width:0;display:grid;gap:22px}
+.hero-ascii{margin:0;min-width:0;justify-self:center;max-width:100%}
+.hero-ascii pre{font:500 10px/1.08 var(--mono);letter-spacing:0;white-space:pre;margin:0;color:var(--ink);user-select:none}
+.hero-ascii .ascii-accent{color:var(--accent)}
+.hero-ascii figcaption{margin-top:12px;font:10px/1.6 var(--sans);letter-spacing:.04em;color:var(--ink-2)}
+.hero>.sheet-notes{grid-column:1/-1}
+.hero>.sheet-notes ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px}
+.sheet-notes{border:1px solid var(--ink-3);padding:16px 18px 6px;font:12.5px/1.55 var(--sans);background:var(--paper)}
+.sheet-notes h2{margin:0 0 10px;font:600 11px/1 var(--sans);letter-spacing:.16em}
+.sheet-notes ol{list-style:none;counter-reset:n;margin:0;padding:0}
+.sheet-notes li{counter-increment:n;display:grid;grid-template-columns:20px 1fr;gap:10px;margin:0 0 10px;color:var(--ink-2)}
+.sheet-notes li::before{content:counter(n);display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--ink-3);font:600 10px/1 var(--mono);color:var(--ink)}
+
+/* ---------- labels: a boxed letter sits on the frame line and breaks it ---------- */
+.tag{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border:1px solid var(--ink);font:700 11px/1 var(--mono);background:var(--paper)}
+.vp,.panel{position:relative;border:1px solid var(--ink);min-width:0;margin:0}
+.vp{height:var(--h,320px)}
+.vp>figcaption,.panel>h2,.params>h2{position:absolute;z-index:3;top:-11px;left:14px;display:flex;align-items:center;gap:8px;margin:0;padding:0 8px 0 0;background:var(--paper);font:600 12.5px/20px var(--sans);letter-spacing:.02em}
+.vp>figcaption .tools{display:flex;gap:6px;margin-left:6px}
+.vp>canvas{display:block;width:100%;height:100%}
+.section-label{display:flex;align-items:center;gap:14px;margin:46px 0 22px;font:600 11px/1 var(--sans);letter-spacing:.16em;color:var(--ink-2)}
+.section-label::after{content:"";flex:1;border-top:1px solid var(--ink-3)}
+.section-label b{font-family:var(--mono);color:var(--ink)}
+
+/* ---------- drawing: the workspace. Layout is the page's choice;
+   these modifiers are conveniences, not a required arrangement. ---------- */
+.drawing{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap)}
+.drawing.cols-side{grid-template-columns:minmax(0,1fr) 340px}
+.drawing.cols-even{grid-template-columns:repeat(2,minmax(0,1fr))}
+.drawing.joined{row-gap:0}.drawing.joined>*+*{margin-top:-1px}
+/* Optional overlay for marks that cross viewports (projection lines, section lines). */
+.drawing>.plate{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.drawing canvas[data-drag]{touch-action:none;cursor:crosshair}
+
+/* ---------- title block: readouts, checks, sheet data. Hairlines come from the 1px gaps. ---------- */
+.titleblock{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--ink-3);border:1px solid var(--ink);align-content:start;min-width:0}
+.titleblock .cell{min-width:0;padding:7px 10px 8px;background:var(--paper)}
+.titleblock .cell.wide{grid-column:1/-1}
+.titleblock small{display:block;font:600 10px/1.4 var(--sans);letter-spacing:.08em;color:var(--ink-2)}
+.titleblock b{display:block;font:600 17px/1.35 var(--mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.titleblock .key b{font-size:22px}
+.titleblock .text b{font:500 12.5px/1.5 var(--sans)}
+.titleblock .ok b::before{content:"✓ ";color:var(--accent-ink)}
+.titleblock .fail b{color:var(--accent-ink)}.titleblock .fail b::before{content:"✗ "}
+.swatch{display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--accent);vertical-align:1px}
+.swatch.fog{background:var(--fog)}.swatch.ink{background:var(--ink)}
+.titleblock .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* ---------- controls ---------- */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--ink);background:var(--paper);font:600 12px/1.2 var(--sans);cursor:pointer;text-decoration:none;color:var(--ink)}
+.btn:hover{background:var(--paper-2)}
+.btn[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn .tag{min-width:16px;height:16px;font-size:10px;border-color:currentColor;background:transparent}
+.btn.small,.vp select{padding:1px 6px;font:600 11.5px/1.5 var(--sans);border:1px solid var(--ink-3);background:var(--paper);border-radius:0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* Parameter table: one cell per quantity; cells wrap, hairlines come from the gaps. */
+.params{position:relative;display:flex;flex-wrap:wrap;gap:1px;background:var(--ink-3);border:1px solid var(--ink);margin-top:34px}
+.param{flex:1 1 220px;padding:20px 18px 12px;min-width:0;background:var(--paper)}
+.param-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font:13px/1.3 var(--sans)}
+.param-head label b{font:italic 600 15px var(--serif);margin-right:4px}
+.param-head label>span{color:var(--ink-2)}
+.num{display:inline-flex;align-items:baseline;gap:4px;font:12px var(--sans);color:var(--ink-2)}
+.num input{width:84px;padding:2px;border:0;border-bottom:1px solid var(--ink);background:transparent;text-align:right;font:600 15px var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.param select{margin-top:10px;width:100%;padding:3px 6px;border:1px solid var(--ink-3);background:var(--paper);font:13px var(--sans)}
+.presets{flex:1 0 100%;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 18px;background:var(--paper);font:12px var(--sans);color:var(--ink-2)}
+.presets .note{margin-left:auto}
+
+/* Keep controls beside the experiment; each topic still owns its view grid. */
+.experiment-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:26px;align-items:start}
+.experiment-main{min-width:0}
+.control-rail{position:sticky;top:16px;max-height:min(760px,calc(100dvh - 32px));overflow-y:auto;overscroll-behavior:contain;padding:12px 3px 4px;scrollbar-gutter:stable}
+.control-rail .params{display:block;margin:0;background:var(--paper)}
+.control-rail .param{padding:14px 14px 10px;border-bottom:1px solid var(--ink-3)}
+.control-rail .param-head{flex-wrap:wrap;gap:8px}
+.control-rail .param-head label{flex:1 1 110px}
+.control-rail .param-head label>span{display:block;margin-top:4px;font-size:11.5px;line-height:1.5}
+.control-rail .num input{width:66px}
+.control-rail .presets{display:grid;gap:8px;padding:14px}
+.control-rail .presets .btn{justify-content:flex-start;min-height:32px}
+.control-rail .presets .note{margin:4px 0 0;line-height:1.6}
+.rail-actions{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 14px}
+@media(max-width:1180px){.experiment-layout{grid-template-columns:240px minmax(0,1fr);gap:22px}}
+@media(max-width:760px){
+  .experiment-layout{grid-template-columns:minmax(0,1fr);gap:28px}
+  .control-rail{position:static;max-height:none;overflow:visible;padding:12px 0 0}
+  .control-rail .params{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .control-rail .presets,.rail-actions{grid-column:1/-1}
+  .control-rail .param{padding:14px 12px 10px}
+  .control-rail .presets{display:flex;flex-wrap:wrap}
+  .control-rail .presets .note{flex-basis:100%}
+  .control-rail .num{margin-left:auto}
+}
+
+/* slide-rule slider: hairline track, cursor-shaped thumb, tick scale below (Draft.rulers) */
+input[type=range].ruler{-webkit-appearance:none;appearance:none;display:block;width:100%;height:24px;margin:10px 0 0;background:linear-gradient(var(--ink),var(--ink)) center/100% 1px no-repeat;cursor:pointer}
+input[type=range].ruler::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:22px;border:1.5px solid var(--accent);background:linear-gradient(90deg,transparent 4.5px,var(--accent) 4.5px 5.5px,transparent 5.5px) var(--paper)}
+input[type=range].ruler::-moz-range-thumb{width:9px;height:19px;border:1.5px solid var(--accent);border-radius:0;background:linear-gradient(90deg,transparent 3.5px,var(--accent) 3.5px 4.5px,transparent 4.5px) var(--paper)}
+input[type=range].ruler::-moz-range-track{background:transparent}
+input[type=range].ruler:focus-visible{outline-offset:2px}
+.scale{position:relative;height:22px;margin:0 6px;font:10px/1 var(--mono);color:var(--ink-2)}
+.scale i{position:absolute;top:0;width:1px;height:4px;background:var(--ink-3)}
+.scale i.major{height:7px;background:var(--ink)}
+.scale span{position:absolute;top:10px;transform:translateX(-50%)}
+
+/* ---------- notes panels ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--gap)}
+.panel{padding:26px 24px 18px;font-size:15.5px}
+.panel h3{margin:22px 0 6px;font:600 14px/1.4 var(--sans)}
+.panel p{margin:10px 0}
+.panel .muted,.muted{font-size:13px;color:var(--ink-2)}
+.formula{overflow-x:auto;max-width:100%;padding:4px 0;margin:6px 0}
+.katex-display{margin:.4em 0}
+details{border-top:1px solid var(--ink-3);margin:14px 0;padding-top:10px}
+summary{cursor:pointer;font:600 13px var(--sans)}
+.schematic{display:block;width:100%;height:auto;margin:6px 0 4px}
+.schematic text{font:12px var(--sans);fill:var(--ink)}
+.schematic .m{font:11px var(--mono);fill:var(--ink-2)}
+
+.sheet-foot{display:flex;flex-wrap:wrap;gap:6px 26px;margin:34px -34px -26px;padding:12px 34px;border-top:1px solid var(--ink-3);font:11.5px/1.6 var(--sans);color:var(--ink-2)}
+.sheet-foot .status{margin-left:auto;font-family:var(--mono)}
+
+/* ---------- Markdown reader: a second sheet sliding in ---------- */
+.reader-overlay{position:fixed;inset:0;z-index:40;background:var(--ink-4);opacity:0;pointer-events:none;transition:opacity .36s}
+.reader-overlay.open{opacity:1;pointer-events:auto}
+.markdown-reader{position:absolute;right:18px;top:18px;bottom:18px;width:min(800px,calc(100vw - 36px));background:var(--paper);border:1.5px solid var(--ink);outline:1px solid var(--ink-3);outline-offset:6px;display:flex;flex-direction:column;transform:translateX(calc(100% + 40px));transition:transform .42s cubic-bezier(.2,.9,.25,1)}
+.open .markdown-reader{transform:none}
+.reader-toolbar{display:flex;align-items:center;gap:14px;padding:12px 22px;border-bottom:1px solid var(--ink);font:600 12.5px var(--sans)}
+.reader-toolbar strong{margin-right:auto;display:flex;gap:8px;align-items:center}
+.reader-toolbar button{border:1px solid var(--ink);background:var(--paper);padding:4px 10px;cursor:pointer;font:600 12px var(--sans)}
+.markdown-body{padding:12px 34px 48px;overflow:auto;overscroll-behavior:contain;line-height:1.85}
+.markdown-body h1{font:700 28px/1.35 var(--title)}
+.markdown-body h2{font-size:21px;border-left:3px solid var(--ink);padding-left:12px;margin-top:34px}
+.markdown-body h3{font-size:17px}
+.markdown-body img{max-width:100%;height:auto;border:1px solid var(--ink-3)}
+.markdown-body pre{overflow:auto;padding:12px 14px;border:1px solid var(--ink-3)}
+.markdown-body code{font:.86em var(--mono);background:var(--ink-4);padding:1px 4px}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:18px 0;border-left:3px solid var(--fog);padding:8px 16px;background:var(--fog-wash)}
+.markdown-body hr{border:0;border-top:1px dashed var(--ink-3)}
+.markdown-body table{width:100%;border-collapse:separate;border-spacing:0;font:13px/1.6 var(--sans);background:var(--paper)}
+.markdown-body th,.markdown-body td{padding:13px 15px;border:0;border-bottom:1px solid var(--ink-4);vertical-align:top;line-height:1.75}
+.markdown-body th{background:var(--paper-2);text-align:left}
+.markdown-body tbody tr:last-child td{border-bottom:0}
+.markdown-body table .katex{font-size:1.06em}
+.markdown-body .katex-display{overflow:auto;padding:6px 0}
+
+/* Only unlettered explanatory containers get rounded contact shadows. */
+.sheet-notes,.markdown-body .table-card,.markdown-body img{border-color:var(--ink-4);border-radius:14px;box-shadow:0 1px 2px var(--ink-4),0 10px 24px -18px var(--ink-3)}
+.markdown-body .table-card{max-width:100%;overflow-x:auto;margin:20px 0;border:1px solid var(--ink-4);background:var(--paper)}
+.markdown-body img{display:block;margin:20px 0;border:0}
+body.reader-open{overflow:hidden}
+
+/* ---------- motion: title glyphs settle, panels fade in. Decoration only. ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .hero-title h1 .ch{animation:settle .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 70ms)}
+  .sheet-notes,.drawing,.params{animation:fade .6s ease .5s both}
+}
+@keyframes settle{from{opacity:0;transform:translateY(.18em)}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reader-overlay,.markdown-reader{transition:none}}
+
+/* ---------- narrow: drop zone margin and cross-viewport marks, stack everything ---------- */
+@media (max-width:980px){
+  :root{--margin:0px}
+  .sheet{margin:0;border:0}.sheet>.frame{border:0;padding:0 18px 20px}.zones{display:none}
+  .sheet-head{margin:0 -18px;padding:14px 18px 0;flex-wrap:wrap;gap:10px 18px}
+  .hero{grid-template-columns:minmax(0,1fr) 290px;gap:24px;padding:40px 0 30px}
+  .hero-title h1{font-size:clamp(40px,6.9vw,80px)}.hero-ascii pre{font-size:8.5px}
+  /* !important: pages define their own grid areas, and the stacked fallback must still win. */
+  .drawing,.drawing[class]{grid-template-columns:minmax(0,1fr) !important;grid-template-areas:none !important}
+  .drawing>*{grid-area:auto !important}
+  .drawing.joined{row-gap:var(--gap)}.drawing.joined>*+*{margin-top:0}
+  .sheet-foot{margin:30px -18px -20px;padding:12px 18px}
+}
+@media (max-width:700px){
+  .hero{grid-template-columns:1fr;gap:26px}
+  .hero-title h1{font-size:clamp(40px,10vw,68px)}
+  .hero-side{grid-template-columns:1fr;gap:20px}.hero-ascii pre{font-size:10px}.hero-ascii{justify-self:start}
+  .hero>.sheet-notes ol{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .sheet-nav{margin-left:0;width:100%;border-top:1px solid var(--ink-3)}.sheet-nav a:first-child{border-left:0;padding-left:0}
+  .vp{height:min(var(--h,320px),300px)}
+  .markdown-reader{inset:8px;width:auto;outline:0}.markdown-body{padding:10px 18px 40px}
+}
+@media print{.reader-overlay,.sheet-nav{display:none}}
+

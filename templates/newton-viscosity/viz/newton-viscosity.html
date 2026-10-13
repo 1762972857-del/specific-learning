@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPIC: title</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/draft.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/marked/marked.min.js"></script>
+<script src="markdown-bundle.js"></script>
+<script src="assets/draft.js"></script>
+<!-- TOPIC: the workspace layout is this example's choice. Keep page-specific layout here,
+     in the page; draft.css owns tokens and components, not arrangements. -->
+<style>
+.drawing.lab{grid-template-areas:"a b" "t t";grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}
+#vp-a{grid-area:a;--h:430px}#vp-b{grid-area:b;--h:430px}
+.drawing.lab .titleblock{grid-area:t}.lab-caption{font:12px/1.65 var(--sans);color:var(--ink-2);margin:10px 0 26px}
+.experiment-layout{grid-template-areas:"controls main"}
+.experiment-layout>.control-rail{grid-area:controls}
+.experiment-layout>.experiment-main{grid-area:main}
+@media(max-width:760px){.experiment-layout{grid-template-areas:"controls" "main"}}
+@media(max-width:700px){#vp-a,#vp-b{--h:410px}.hero .lede{max-width:100%}}
+
+
+</style>
+</head><body>
+<!-- ============ SHELL (shared; keep) ============ -->
+<main class="sheet">
+<div class="zones" aria-hidden="true">
+  <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+</div>
+<div class="frame">
+<header class="sheet-head">
+  <span class="code">SL · 00</span><span>Specific Learning</span><span class="meta">TOPIC: course · subject</span>
+  <nav class="sheet-nav" aria-label="Learning views">
+    <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+    <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+  </nav>
+</header>
+
+<!-- ============ HERO (shared structure; text and ASCII art are per topic) ============ -->
+<section class="hero">
+  <div class="hero-title">
+    <p class="sub">TOPIC: subtitle</p>
+    <h1 aria-label="Topic"><span class="ch latin" style="--i:0" aria-hidden="true">T</span><span class="ch latin" style="--i:1" aria-hidden="true">o</span><span class="ch latin" style="--i:2" aria-hidden="true">p</span><span class="ch latin" style="--i:3" aria-hidden="true">i</span><span class="ch latin" style="--i:4" aria-hidden="true">c</span></h1>
+    <p class="lede">TOPIC: one-sentence lede.</p>
+  </div>
+  <div class="hero-side">
+<figure class="hero-ascii" role="img" aria-label="TOPIC: ASCII schematic description; not to scale."><pre aria-hidden="true">TOPIC: ASCII art, max 64 cols x 32 lines.
+  <span class="ascii-accent">88888888888888888888</span>
+  8:o::o::o::o::o::o:8
+  <span class="ascii-accent">88888888888888888888</span></pre><figcaption>TOPIC: CAPTION · NTS</figcaption></figure>
+</div>
+<aside class="sheet-notes" aria-label="Model notes">
+    <h2>NOTES</h2>
+    <!-- TOPIC: assumptions, units, what the picture is not; 3–6 items. -->
+    <ol>
+      <li><div>TOPIC: assumption, unit or scope note.</div></li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ============ WORKSPACE (per topic: views, layout and interaction are free) ============ -->
+<div class="section-label" id="experiment"><b>01</b>EXPERIMENT · TOPIC: what is shown</div>
+<section class="experiment-layout" id="experiment-layout">
+<div class="experiment-main">
+<section class="drawing lab" id="drawing">
+<figure class="vp" id="vp-a"><figcaption><span class="tag">A</span>Layer translation · NTS <span class="tools"><button class="btn small" id="play" aria-pressed="false" type="button">Play</button><button class="btn small" id="step" type="button">+0.05 s</button></span></figcaption><canvas id="cv-a" role="img" aria-describedby="desc-a"></canvas><p class="sr-only" id="desc-a"></p></figure>
+<figure class="vp" id="vp-b"><figcaption><span class="tag">B</span>Velocity profile · fixed numeric axes</figcaption><canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas><p class="sr-only" id="desc-b"></p></figure>
+<aside class="titleblock" aria-label="Readouts">
+<div class="cell wide key"><small><span class="swatch"></span>Probe velocity <span data-tex="u(y)"></span></small><b id="velocity">—</b></div>
+<div class="cell key"><small>Shear stress <span data-tex="\tau\;( +y\text{ face, }+x) "></span></small><b id="stress">—</b></div>
+<div class="cell"><small>Velocity gradient <span data-tex="du/dy"></span></small><b id="gradient">—</b></div>
+<div class="cell"><small>Fluid force on upper plate <span data-tex="F_x"></span></small><b id="force">—</b></div>
+<div class="cell"><small>Total dissipation power</small><b id="dissipation">—</b></div>
+<div class="cell"><small>Tracer time · 0.1× speed</small><b id="time">—</b></div>
+<div class="cell" id="check-cell"><small>Input power − dissipation</small><b id="balance">—</b></div>
+<div class="cell wide text"><small>TOPIC: viewing convention</small><b>TOPIC: scale / NTS note.</b></div>
+<div class="cell wide actions"><button class="btn" id="reset" type="button">Reset defaults</button><button class="btn" id="rewind" type="button">Rewind tracer</button><button class="btn" id="download" type="button">Download Markdown</button></div>
+</aside></section>
+<p class="lab-caption" id="insight" aria-live="polite"><span id="insight-text"></span> <span id="insight-math"></span></p>
+</div>
+<aside class="control-rail">
+<section class="params" aria-label="Experiment conditions"><h2><span class="tag">P</span>Conditions</h2><div class="param"><div class="param-head"><label for="p-upper"><b>U₁</b><span>Upper plate speed</span></label><span class="num"><input aria-label="Exact upper plate speed" data-param="upper" type="number" min="-1.2" max="1.2" step="0.05" value="0.6">m/s</span></div><input class="ruler" id="p-upper" data-param="upper" type="range" min="-1.2" max="1.2" step="0.05" value="0.6"></div><div class="param"><div class="param-head"><label for="p-lower"><b>U₀</b><span>Lower plate speed</span></label><span class="num"><input aria-label="Exact lower plate speed" data-param="lower" type="number" min="-1.2" max="1.2" step="0.05" value="0">m/s</span></div><input class="ruler" id="p-lower" data-param="lower" type="range" min="-1.2" max="1.2" step="0.05" value="0"></div><div class="param"><div class="param-head"><label for="p-gap"><b>H</b><span>Plate gap</span></label><span class="num"><input aria-label="Exact plate gap" data-param="gap" type="number" min="2" max="12" step="0.1" value="6">mm</span></div><input class="ruler" id="p-gap" data-param="gap" type="range" min="2" max="12" step="0.1" value="6"></div><div class="param"><div class="param-head"><label for="p-mu"><b>μ</b><span>Dynamic viscosity</span></label><span class="num"><input aria-label="Exact dynamic viscosity" data-param="mu" type="number" min="0.001" max="1" step="0.001" value="0.1">Pa·s</span></div><input class="ruler" id="p-mu" data-param="mu" type="range" min="0.001" max="1" step="0.001" value="0.1"></div><div class="param"><div class="param-head"><label for="p-area"><b>A</b><span>Plate area</span></label><span class="num"><input aria-label="Exact plate area" data-param="area" type="number" min="0.01" max="0.2" step="0.01" value="0.04">m²</span></div><input class="ruler" id="p-area" data-param="area" type="range" min="0.01" max="0.2" step="0.01" value="0.04"></div><div class="param"><div class="param-head"><label for="p-r"><b>y/H</b><span>Relative probe height</span></label><span class="num"><input aria-label="Exact relative probe height" data-param="r" type="number" min="0" max="1" step="0.01" value="0.5"></span></div><input class="ruler" id="p-r" data-param="r" type="range" min="0" max="1" step="0.01" value="0.5"></div><div class="presets">Presets <button class="btn" id="same" type="button"><span class="tag">1</span>Same speed</button><button class="btn" id="opposite" type="button"><span class="tag">2</span>Equal and opposite</button><button class="btn" id="half" type="button"><span class="tag">3</span>Half the gap</button><button class="btn" id="thick" type="button"><span class="tag">4</span>Viscosity × 10</button><span class="note">Vermilion = probe · fog-blue band = fluid height · solid arrows = velocity, dashed arrows = tangential force on fluid</span></div></section>
+</aside>
+</section>
+<div class="section-label"><b>02</b>DERIVATION · TOPIC: derivation, predictions, pitfalls</div>
+<section class="notes">
+<article class="panel"><h2><span class="tag">D</span>TOPIC: definition and derivation</h2>
+<p>TOPIC: definitions, sign conventions, derivation with provenance tags [Standard result] / [Derivation].</p>
+<div class="formula" data-tex="\text{TOPIC: key formula}"></div>
+<h3>Units and scope</h3><p>TOPIC: units, assumptions, failure limits.</p></article>
+<article class="panel"><h2><span class="tag">E</span>Predict first, then operate</h2><p>TOPIC: two or three prediction questions.</p>
+<details><summary>Observation path and answers</summary><p>TOPIC: answers.</p></details>
+<h3>Reading the figure and common pitfalls</h3><p>TOPIC: what each viewport shows and what it does not.</p>
+<p class="muted">TOPIC: sources.</p></article></section>
+<footer class="sheet-foot">
+  <span>All calculations run in the browser; KaTeX and marked are local files (MIT).</span>
+  <span>Verify with <code>python viz/check.py</code> · after guide edits run <code>python viz/bundle_notes.py</code></span>
+  <span class="status" data-shell-status></span>
+</footer>
+</div>
+</main>
+
+<div class="reader-overlay" aria-hidden="true" inert><section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-toolbar"><strong id="reader-title"><span class="tag">MD</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+  <article class="markdown-body"></article>
+</section></div>
+
+<!-- ============ MODEL (per topic; pure, no DOM; compared with model.py by check.py) ============ -->
+<script id="lab-model">
+const MODEL = {
+ evaluate(inputs,P){
+  const {r,t}=inputs, {upper,lower,gap,mu,area}=P;
+  if(![r,t,upper,lower,gap,mu,area].every(Number.isFinite)||gap<=0||mu<=0||area<=0||r<0||r>1||t<0)throw new Error('Invalid model input');
+  const H=gap/1000,delta=upper-lower,gradient=delta/H,velocity=lower+delta*r,stress=mu*gradient;
+  const dissipation=mu*area*delta*delta/H,input_power=stress*area*upper-stress*area*lower;
+  return {velocity,gradient,stress,y:H*r,force_upper:-stress*area,dissipation,input_power,balance:input_power-dissipation,displacement:velocity*t,vertical_velocity:0};
+ }
+};globalThis.MODEL=MODEL;
+</script>
+
+<!-- ============ VIEWS ============ -->
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const $=id=>document.getElementById(id),D=Draft,K=D.colors();
+const DEFAULTS={upper:.6,lower:0,gap:6,mu:.1,area:.04,r:.5,t:0},state={...DEFAULTS},params=document.querySelector('.params');
+const physics=['upper','lower','gap','mu','area'];
+function update(patch={},draw=true){
+ if(physics.some(k=>k in patch)){patch={...patch,t:0};clock.pause();}
+ Object.assign(state,patch);D.syncParams(params,state);if(draw)render();
+}
+const P=()=>({upper:state.upper,lower:state.lower,gap:state.gap,mu:state.mu,area:state.area});
+const val=(r=state.r)=>MODEL.evaluate({r,t:state.t},P());
+const f=(v,n=3)=>Math.abs(v)<1e-10?'0':v.toFixed(n);
+let frameA;
+function drawA(r){
+ const cv=$('cv-a'),{c,w}=D.setup(cv),bx=D.box(cv,{t:82,r:42,b:80,l:36}),F=D.frame(bx,[0,.12],[0,1]);frameA=F;
+ D.poly(c,[[bx.l,bx.t],[bx.l+6,bx.t],[bx.l+6,bx.b],[bx.l,bx.b]],{fill:K.fogWash});
+ for(const q of [0,1]){const yy=F.Y(q);D.path(c,[[bx.l,yy],[bx.r,yy]],{width:3});
+  for(let x=bx.l;x<bx.r;x+=10)D.path(c,[[x,yy+(q? -12:12)],[Math.min(x+10,bx.r),yy]],{color:K.ink3});
+  const u=q?state.upper:state.lower,yy2=yy+(q?-31:35),a=F.X(.06);
+  D.vector(c,a,yy2,a+u*(bx.r-bx.l)*.22,yy2,{width:2});
+  D.text(c,`${q?'Upper':'Lower'} plate U${q?'₁':'₀'} = ${f(u,2)} m/s`,bx.l,yy+(q?-53:58),{font:`11px ${K.sans}`});
+ }
+ const periodic=x=>((x%.12)+.12)%.12;
+ D.clip(c,bx,()=>{
+  for(let i=1;i<9;i++){const q=i/9,rr=val(q),yy=F.Y(q);D.path(c,[[bx.l,yy],[bx.r,yy]],{color:K.ink4,dash:D.DASH.dot});
+   for(let j=0;j<7;j++)D.dot(c,F.X(periodic(j*.12/7+rr.displacement)),yy,{r:1.8,color:K.ink3});
+   D.vector(c,F.X(.06),yy,F.X(.06)+rr.velocity*(bx.r-bx.l)*.22,yy,{width:1.5});
+  }
+  const yy=F.Y(state.r);D.path(c,[[bx.l,yy],[bx.r,yy]],{dash:D.DASH.chain,color:K.accent});
+  D.dot(c,F.X(periodic(.025+r.displacement)),yy,{color:K.accent,r:4});
+ });
+ D.text(c,`Probe y/H = ${f(state.r,2)} · u = ${f(r.velocity)} m/s`,bx.l,bx.t+18,{color:K.accentInk,font:`11px ${K.sans}`});
+ D.dimV(c,bx.r+16,bx.b,bx.t,'H');
+ D.text(c,`H = ${f(state.gap,1)} mm`,w-12,39,{align:'right',font:`11px ${K.mono}`});
+ D.text(c,'x →  ·  0.12 m viewing window (wraparound)',bx.l,bx.b+78,{font:`10px ${K.sans}`});
+ const sign=Math.sign(r.stress),cx=F.X(.82*.12);
+ if(sign){D.vector(c,cx,bx.t+32,cx+sign*24,bx.t+32,{dash:D.DASH.dash,width:1});D.vector(c,cx,bx.b-18,cx-sign*24,bx.b-18,{dash:D.DASH.dash,width:1});}
+ D.text(c,'Dashed force: plate on fluid',w-12,19,{align:'right',font:`10px ${K.sans}`});
+ $('desc-a').textContent=`Steady parallel-plate flow, gap ${state.gap} mm; upper plate ${state.upper} m/s, lower plate ${state.lower} m/s. Tracer dots move horizontally with their layer velocity and have no vertical velocity. Probe height ${f(r.y*1000,2)} mm, velocity ${f(r.velocity)} m/s; forces on the fluid from the upper and lower plates are ${f(r.stress*state.area)} N and ${f(-r.stress*state.area)} N. NTS: geometry is not to scale.`;
+}
+function drawB(r){
+ const cv=$('cv-b'),{c}=D.setup(cv),bx=D.box(cv,{t:40,r:28,b:48,l:48}),F=D.frame(bx,[-1.3,1.3],[0,13]);
+ D.axes(c,F,{xTicks:[-1.2,-.6,0,.6,1.2],yTicks:[0,3,6,9,12],xLabel:'u / (m/s)',yLabel:'y / mm',grid:false});
+ D.path(c,[[F.X(0),F.Y(0)],[F.X(0),F.Y(12)]],{color:K.ink3,dash:D.DASH.chain});
+ D.path(c,[[F.X(state.lower),F.Y(0)],[F.X(state.upper),F.Y(state.gap)]],{width:D.WEIGHT.data});
+ const ya=.2*state.gap,yb=.8*state.gap,ua=val(.2).velocity,ub=val(.8).velocity;
+ D.path(c,[[F.X(ua),F.Y(ya)],[F.X(ub),F.Y(ya)],[F.X(ub),F.Y(yb)]],{color:K.ink2,dash:D.DASH.dash});
+ D.text(c,'Δu',F.X((ua+ub)/2),F.Y(ya)+18,{align:'center'});
+ D.text(c,'Δy',F.X(ub)+6,F.Y((ya+yb)/2));
+ const x=F.X(r.velocity),y=F.Y(r.y*1000),dir=x>(bx.l+bx.r)/2?-1:1;
+ D.dot(c,x,y,{color:K.accent});D.leader(c,x,y,x+dir*18,Math.max(bx.t+20,y-26),`u=${f(r.velocity)}`,{color:K.accent,textColor:K.accentInk});
+ D.text(c,`du/dy = ${f(r.gradient,1)} s⁻¹`,bx.l,bx.t+12,{font:`10px ${K.mono}`});
+ $('desc-b').textContent=`Velocity profile on fixed axes, horizontal axis −1.3 to 1.3 m/s and vertical axis 0 to 13 mm. The line runs from (${state.lower}, 0) to (${state.upper}, ${state.gap}); probe point is (${f(r.velocity)}, ${f(r.y*1000,2)}). The horizontal difference Δu divided by vertical difference Δy is ${f(r.gradient,1)} per second.`;
+}
+function render(){const r=val();
+ for(const [id,value,unit] of [['velocity',r.velocity,'m/s'],['stress',r.stress,'Pa'],['gradient',r.gradient,'s⁻¹'],['force',r.force_upper,'N'],['dissipation',r.dissipation,'W']])$(id).textContent=`${f(value)} ${unit}`;
+ $('time').textContent=`${f(state.t,2)} s`;$('balance').textContent=`${Math.abs(r.balance).toExponential(1)} W`;$('check-cell').classList.toggle('ok',Math.abs(r.balance)<1e-9);$('check-cell').classList.toggle('fail',Math.abs(r.balance)>=1e-9);
+ const sameSpeed=Math.abs(state.upper-state.lower)<1e-9, opposite=Math.abs(state.upper+state.lower)<1e-9;
+ $('insight-text').textContent=sameSpeed?'TOPIC: insight for a special case.':opposite?'TOPIC: insight for another case.':'TOPIC: default insight.';
+ D.setMath($('insight-math'),String.raw`\text{TOPIC: formula}`);
+ drawA(r);drawB(r);
+}
+const clock=D.clock({dt:.001,rate:.1,step:dt=>update({t:state.t+dt},false),render:()=>render(),onState:on=>{$('play').textContent=on?'Pause':'Play';$('play').setAttribute('aria-pressed',String(on));}});
+D.bindParams(params,update);D.rulers();D.math();D.shell();
+D.drag($('cv-a'),{hit:(x,y)=>frameA&&x>=frameA.box.l&&x<=frameA.box.r&&y>=frameA.box.t&&y<=frameA.box.b?'probe':null,move:(_,x,y)=>update({r:Math.round(Math.max(0,Math.min(1,frameA.iy(y)))*100)/100})});
+$('play').onclick=()=>clock.toggle();$('step').onclick=()=>clock.stepOnce(50);
+$('rewind').onclick=()=>{clock.pause();update({t:0});};$('reset').onclick=()=>update({...DEFAULTS});
+$('same').onclick=()=>update({upper:.6,lower:.6});$('opposite').onclick=()=>update({upper:.6,lower:-.6});
+$('half').onclick=()=>update({gap:Math.max(2,state.gap/2)});$('thick').onclick=()=>update({mu:Math.min(1,state.mu*10)});
+$('download').onclick=()=>D.downloadNote('guide');
+new ResizeObserver(()=>render()).observe($('drawing'));update();
+window.lab={state,update,clock,model:MODEL};
+});
+</script></body></html>

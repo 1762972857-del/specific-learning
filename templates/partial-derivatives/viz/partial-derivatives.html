@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPIC: title</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/draft.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/marked/marked.min.js"></script>
+<script src="markdown-bundle.js"></script>
+<script src="assets/draft.js"></script>
+<script src="assets/surface3d.js"></script>
+<style>
+.drawing.lab{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"a b" "a c" "d e" "r r"}
+.drawing #vp-a{grid-area:a;height:664px;--h:664px}
+.drawing #vp-b{grid-area:b}.drawing #vp-c{grid-area:c}.drawing #vp-d{grid-area:d}.drawing #vp-e{grid-area:e}
+.drawing .titleblock{grid-area:r;grid-template-columns:repeat(4,minmax(0,1fr))}
+.figure-help{font:12px/1.7 var(--sans);color:var(--ink-2);margin:15px 0 24px}
+.figure-help .dynamic-summary{display:block;margin-top:8px;color:var(--ink)}
+.toggles{display:flex;flex-wrap:wrap;gap:18px;padding:12px 0 28px;font:13px var(--sans)}
+.toggles label{display:flex;gap:7px;align-items:center}
+.vp canvas:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.params .param{min-width:210px}
+.notes .formula{font-size:15px;overflow-x:auto}.formula{max-width:100%}
+.math-inline{display:inline-block;min-width:.15em}
+.presets-label{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.note{font-size:12px}
+@media(max-width:980px){.drawing #vp-a{height:360px;min-height:0}}
+@media(max-width:700px){.drawing .titleblock{grid-template-columns:repeat(2,minmax(0,1fr))}.drawing #vp-a{--h:360px}.vp>figcaption{font-size:11px}.params .param{min-width:0}}
+</style>
+</head>
+<body>
+<main class="sheet">
+<div class="zones" aria-hidden="true">
+  <div class="zx top"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zx bottom"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+  <div class="zy left"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+  <div class="zy right"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span></div>
+</div>
+<div class="frame">
+<header class="sheet-head">
+  <span class="code">SL · 00</span><span>Specific Learning</span><span class="meta">TOPIC: course · subject</span>
+  <nav class="sheet-nav" aria-label="Experiment views">
+    <a href="#experiment" data-view="experiment" class="active" aria-current="page"><b>01</b>Experiment</a>
+    <a href="#guide" data-view="guide"><b>02</b>Guide</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-title">
+    <p class="sub">TOPIC: subtitle</p>
+    <h1 class="latin" aria-label="Topic title"><span class="ch">TOPIC</span> <span class="ch">TITLE</span></h1>
+    <p class="lede">TOPIC: one-sentence lede.</p>
+  </div>
+  <div class="hero-side">
+    <figure class="hero-ascii" role="img" aria-label="TOPIC: ASCII schematic description; not to scale.">
+      <pre aria-hidden="true">TOPIC: ASCII art, max 64 cols x 32 lines.
+   <span class="ascii-accent">88:888</span>
+ <span class="ascii-accent">8o:8888:o8</span>
+   8:8888:o8</pre>
+      <figcaption>TOPIC: CAPTION · NTS</figcaption>
+    </figure>
+  </div>
+  <aside class="sheet-notes" aria-label="Model notes">
+    <h2>NOTES</h2>
+    <ol>
+      <li><div>TOPIC: assumption, unit or scope note.</div></li>
+    </ol>
+  </aside>
+</section>
+
+<div class="section-label" id="experiment"><b>01</b>EXPERIMENT · TOPIC: what is shown</div>
+<section class="experiment-layout" id="experiment-workspace">
+  <aside class="control-rail" aria-label="Experiment controls">
+    <section class="params" aria-label="Parameters, probes, and camera">
+      <h2><span class="tag">P</span>Parameters, probes, and camera</h2>
+      <div class="param"><div class="param-head"><label for="p-x"><b><span data-tex="x_0"></span></b><span>probe position</span></label><span class="num"><input aria-label="Exact probe position" data-param="x" type="number" min="0.01" max="3.13159" step="0.01" value="1.15"></span></div><input class="ruler" id="p-x" data-param="x" type="range" min="0.01" max="3.13159" step="0.01" value="1.15"></div>
+      <div class="param"><div class="param-head"><label for="p-t"><b><span data-tex="t_0"></span></b><span>probe time</span></label><span class="num"><input aria-label="Exact probe time" data-param="t" type="number" min="0" max="2.2" step="0.01" value="0.45"></span></div><input class="ruler" id="p-t" data-param="t" type="range" min="0" max="2.2" step="0.01" value="0.45"></div>
+      <div class="param"><div class="param-head"><label for="p-alpha"><b><span data-tex="\alpha"></span></b><span>decay coefficient</span></label><span class="num"><input aria-label="Exact decay coefficient" data-param="alpha" type="number" min="0.1" max="2" step="0.1" value="1"></span></div><input class="ruler" id="p-alpha" data-param="alpha" type="range" min="0.1" max="2" step="0.1" value="1"></div>
+      <div class="param"><div class="param-head"><label for="p-beta"><b><span data-tex="\beta"></span></b><span>second-mode weight</span></label><span class="num"><input aria-label="Exact second-mode weight" data-param="beta" type="number" min="-0.6" max="0.6" step="0.05" value="0.35"></span></div><input class="ruler" id="p-beta" data-param="beta" type="range" min="-0.6" max="0.6" step="0.05" value="0.35"></div>
+      <div class="param"><div class="param-head"><label for="p-h"><b><span data-tex="h"></span></b><span>neighbor spacing</span></label><span class="num"><input aria-label="Exact neighbor spacing" data-param="h" type="number" min="0.005" max="0.5" step="0.005" value="0.2"></span></div><input class="ruler" id="p-h" data-param="h" type="range" min="0.005" max="0.5" step="0.005" value="0.2"></div>
+      <div class="param"><div class="param-head"><label for="p-yaw"><b><span data-tex="\phi"></span></b><span>yaw / degrees</span></label><span class="num"><input aria-label="Exact yaw in degrees" data-param="yaw" type="number" min="-180" max="180" step="1" value="-55"></span></div><input class="ruler" id="p-yaw" data-param="yaw" type="range" min="-180" max="180" step="1" value="-55"></div>
+      <div class="param"><div class="param-head"><label for="p-pitch"><b><span data-tex="\theta"></span></b><span>pitch / degrees</span></label><span class="num"><input aria-label="Exact pitch in degrees" data-param="pitch" type="number" min="10" max="80" step="1" value="28"></span></div><input class="ruler" id="p-pitch" data-param="pitch" type="range" min="10" max="80" step="1" value="28"></div>
+      <div class="presets"><span class="presets-label">Presets</span><button class="btn" id="single" type="button"><span class="tag">1</span>Single-mode peak</button><button class="btn" id="mixed" type="button"><span class="tag">2</span>Mixed modes</button><button class="btn" id="halve" type="button"><span class="tag">3</span>Halve <span data-tex="h"></span></button><span class="note" id="stencil-note"><span>Neighbors remain inside the rod: </span><span id="stencil-note-math"></span><span>; near an endpoint, the page clamps the spacing.</span></span></div>
+    </section>
+    <div class="rail-actions"><button class="btn" id="reset" type="button">Reset defaults</button><button class="btn" id="download" type="button">Download guide</button></div>
+  </aside>
+
+  <div class="experiment-main">
+    <section class="drawing lab" id="drawing">
+      <figure class="vp" id="vp-a"><figcaption><span class="tag">A</span>Surface <span data-tex="x\times t\times T"></span> · drag to rotate</figcaption><canvas id="cv-a" role="img" aria-describedby="desc-a" tabindex="0" aria-label="Orthographic surface; drag or use arrow keys to change the camera"></canvas><p class="sr-only" id="desc-a">Use the arrow keys to rotate the surface.</p></figure>
+      <figure class="vp" id="vp-b"><figcaption><span class="tag">B</span>Fixed <span data-tex="t=t_0"></span> · spatial profile</figcaption><canvas id="cv-b" role="img" aria-describedby="desc-b"></canvas><p class="sr-only" id="desc-b">Drag the probe along the spatial profile.</p></figure>
+      <figure class="vp" id="vp-c"><figcaption><span class="tag">C</span>Fixed <span data-tex="x=x_0"></span> · time profile</figcaption><canvas id="cv-c" role="img" aria-describedby="desc-c"></canvas><p class="sr-only" id="desc-c">Drag the probe along the time profile.</p></figure>
+      <figure class="vp" id="vp-d"><figcaption><span class="tag">D</span>Three neighbors · centered second difference</figcaption><canvas id="cv-d" role="img" aria-describedby="desc-d"></canvas><p class="sr-only" id="desc-d"></p></figure>
+      <figure class="vp" id="vp-e"><figcaption><span class="tag">E</span>Error as <span data-tex="h"></span> changes · log-log axes</figcaption><canvas id="cv-e" role="img" aria-describedby="desc-e"></canvas><p class="sr-only" id="desc-e"></p></figure>
+      <aside class="titleblock" aria-label="Current probe readouts" aria-live="polite">
+        <div class="cell key" id="cell-T"><small><span data-tex="T(x_0,t_0)"></span></small><b id="r-T">—</b></div>
+        <div class="cell" id="cell-Tx"><small><span data-tex="T_x"></span> spatial slope</small><b id="r-Tx">—</b></div>
+        <div class="cell" id="cell-Tt"><small><span data-tex="T_t"></span> time slope</small><b id="r-Tt">—</b></div>
+        <div class="cell" id="cell-Txx"><small><span data-tex="T_{xx}"></span> spatial curvature</small><b id="r-Txx">—</b></div>
+        <div class="cell" id="cell-discrete"><small><span data-tex="D_h^2T"></span> centered difference</small><b id="r-discrete">—</b></div>
+        <div class="cell" id="cell-error"><small><span data-tex="\lvert D_h^2T-T_{xx}\rvert"></span></small><b id="r-error">—</b></div>
+        <div class="cell" id="cell-order"><small>observed order <span data-tex="p"></span></small><b id="r-order">—</b></div>
+        <div class="cell" id="cell-residual"><small><span data-tex="\lvert T_t-\alpha T_{xx}\rvert"></span> check</small><b id="r-residual">—</b></div>
+        <div class="cell wide text"><small>TOPIC: scale and domain for A</small><b>TOPIC: NTS / axis ranges.</b></div>
+      </aside>
+    </section>
+    <p class="figure-help">TOPIC: what each panel shows, and how to read overlays.
+      <span class="dynamic-summary">Current probe: <span id="dynamic-summary-math"></span>.</span>
+    </p>
+    <div class="toggles" aria-label="Display options"><label><input type="checkbox" data-option="plane" checked>Show local tangent plane</label><label><input type="checkbox" data-option="slices" checked>Show both slices</label><label><input type="checkbox" data-option="wire" checked>Show mesh</label><button class="btn small" id="front" type="button">Front view</button><button class="btn small" id="oblique" type="button">Default oblique view</button></div>
+  </div>
+</section>
+
+<div class="section-label" id="guide"><b>02</b>DERIVATION · TOPIC: derivation, predictions, pitfalls</div>
+<section class="notes">
+  <article class="panel"><h2><span class="tag">F</span>TOPIC: definition and derivation</h2>
+    <div class="formula" data-tex="\text{TOPIC: key formula}"></div>
+    <p>TOPIC: setup, derivation with provenance tags [Standard result] / [Derivation].</p>
+    <h3>Scope and assumptions</h3>
+    <p>TOPIC: units, assumptions, failure limits.</p>
+  </article>
+  <article class="panel"><h2><span class="tag">G</span>Predict first, then check</h2>
+    <p>TOPIC: two or three prediction questions.</p>
+    <details><summary>Open the observation path and answer</summary><p>TOPIC: answers.</p></details>
+    <h3>Pitfalls</h3>
+    <p>TOPIC: common misreadings.</p>
+    <p class="muted">TOPIC: sources.</p>
+  </article>
+</section>
+<footer class="sheet-foot"><span>Native Canvas 2D; local KaTeX / marked (MIT); all computation runs in the browser.</span><span>Check: python viz/check.py · finite cases do not replace proof</span><span class="status" data-shell-status></span></footer>
+</div>
+</main>
+<div class="reader-overlay" aria-hidden="true" inert><section class="markdown-reader" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-toolbar"><strong id="reader-title"><span class="tag">MD</span><span data-reader-title>Guide</span></strong><a data-download-notes href="#">Download</a><button type="button" data-close-reader>Close</button></div>
+  <article class="markdown-body"></article>
+</section></div>
+
+<script id="lab-model">
+const MODEL = {
+ f(x,t,P){return Math.exp(-P.alpha*t)*Math.sin(x)+P.beta*Math.exp(-4*P.alpha*t)*Math.sin(2*x);},
+ evaluate(inputs,P){
+  const {x,t,h}=inputs,{alpha:a,beta:b}=P;
+  if(![x,t,h,a,b].every(Number.isFinite)||a<=0||t<0||h<=0)throw new Error('Invalid model input');
+  const u=Math.exp(-a*t),v=b*Math.exp(-4*a*t),T=u*Math.sin(x)+v*Math.sin(2*x);
+  const Tx=u*Math.cos(x)+2*v*Math.cos(2*x),Tt=-a*u*Math.sin(x)-4*a*v*Math.sin(2*x),Txx=-u*Math.sin(x)-4*v*Math.sin(2*x);
+  const diff=d=>(MODEL.f(x-d,t,P)-2*T+MODEL.f(x+d,t,P))/d**2;
+  const discrete=diff(h),error=Math.abs(discrete-Txx),errorHalf=Math.abs(diff(h/2)-Txx);
+  const order=Math.min(error,errorHalf)>1e-12?Math.log2(error/errorHalf):0;
+  return {T,Tx,Tt,Txx,discrete,error,errorHalf,order,residual:Tt-a*Txx,stencil_valid:Number(x-h>=0&&x+h<=Math.PI)};
+ }
+};
+globalThis.MODEL=MODEL;
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+'use strict';
+const D=Draft,K=D.colors(),$=id=>document.getElementById(id),params=document.querySelector('.params');
+const DEFAULTS={x:1.15,t:.45,alpha:1,beta:.35,h:.2,yaw:-55,pitch:28,plane:true,slices:true,wire:true},state={...DEFAULTS};
+const bounds={x:[.01,Math.PI-.01],t:[0,2.2],alpha:[.1,2],beta:[-.6,.6],h:[.005,.5],yaw:[-180,180],pitch:[10,80]};
+const P=()=>({alpha:state.alpha,beta:state.beta}),fmt=v=>Math.abs(v)<1e-12?'0':Math.abs(v)<.001?v.toExponential(2):v.toFixed(4);
+let frames={};
+function update(patch={}){
+ for(const [key,value] of Object.entries(patch)){
+  if(key in bounds){if(Number.isFinite(value))state[key]=Math.max(bounds[key][0],Math.min(bounds[key][1],value));}
+  else if(['plane','slices','wire'].includes(key))state[key]=!!value;
+ }
+ state.h=Math.min(state.h,state.x,Math.PI-state.x);
+ D.syncParams(params,state);
+ for(const el of params.querySelectorAll('input[type=number][data-param]'))if(Number(el.value)!==state[el.dataset.param])el.value=state[el.dataset.param];
+ for(const el of document.querySelectorAll('[data-option]'))el.checked=state[el.dataset.option];
+ render();
+}
+D.bindParams(params,update);D.rulers();D.math();D.shell();
+const shellStatus=document.querySelector('[data-shell-status]');if(shellStatus)shellStatus.textContent='Local assets · no external dependencies';
+for(const el of document.querySelectorAll('[data-option]'))el.addEventListener('change',()=>update({[el.dataset.option]:el.checked}));
+function line(c,pts,options={}){D.path(c,pts,options);}
+function updateDynamicMath(r){
+ D.setMath($('stencil-note-math'),String.raw`x_0-h=${(state.x-state.h).toFixed(3)},\quad x_0+h=${(state.x+state.h).toFixed(3)}`);
+ D.setMath($('dynamic-summary-math'),String.raw`T=${r.T.toFixed(4)},\quad T_x=${r.Tx.toFixed(4)},\quad T_t=${r.Tt.toFixed(4)},\quad T_{xx}=${r.Txx.toFixed(4)}`);
+}
+function draw3D(r){
+ const {c,w,h,project,skippedTriangles}=Surface3D.draw($('cv-a'),{f:(x,t)=>MODEL.f(x,t,P()),domain:{x:[0,Math.PI],y:[0,2.2],z:[-1.6,1.6]},camera:{yaw:state.yaw,pitch:state.pitch},mesh:[28,22],axisScale:[.92,1.1,1],viewSpan:[4.2,4.6],wire:state.wire});
+ if(state.plane){
+  const pts=[[-.38,-.25],[.38,-.25],[.38,.25],[-.38,.25]].map(([dx,dt])=>project(state.x+dx,state.t+dt,r.T+r.Tx*dx+r.Tt*dt));
+  D.poly(c,pts,{fill:K.fogWash,stroke:K.ink2,width:1,dash:D.DASH.dash});
+  for(const [dx,dt] of [[.38,0],[0,.25]])line(c,[project(state.x-dx,state.t-dt,r.T-r.Tx*dx-r.Tt*dt),project(state.x+dx,state.t+dt,r.T+r.Tx*dx+r.Tt*dt)],{color:K.ink,width:1.4,dash:D.DASH.dash});
+ }
+ if(state.slices){
+  line(c,Array.from({length:101},(_,i)=>{const x=Math.PI*i/100;return project(x,state.t,MODEL.f(x,state.t,P()));}),{color:K.accent,width:2.3});
+  line(c,Array.from({length:101},(_,i)=>{const t=2.2*i/100;return project(state.x,t,MODEL.f(state.x,t,P()));}),{color:K.ink,width:2.3,dash:D.DASH.dash});
+ }
+ const origin=project(0,0,-1.6),ends=[[Math.PI,0,-1.6,'x = pi'],[0,2.2,-1.6,'t = 2.2'],[0,0,1.6,'T = 1.6']];
+ for(const [x,t,z,label]of ends){const tip=project(x,t,z);D.vector(c,origin[0],origin[1],tip[0],tip[1],{color:K.ink2,width:1,head:7});D.text(c,label,Math.max(12,Math.min(w-68,tip[0]+7)),Math.max(28,Math.min(h-24,tip[1]-8)),{font:`11px ${K.mono}`,color:K.ink2});}
+ const q=project(state.x,state.t,r.T);D.cross(c,q[0],q[1],{color:K.accent,r:7});D.dot(c,q[0],q[1],{color:K.accent,r:3});
+ D.text(c,`T0 = ${r.T.toFixed(3)}`,Math.max(16,Math.min(w-110,q[0]+14)),Math.max(44,Math.min(h-35,q[1]-18)),{color:K.accentInk});
+ D.text(c,`NTS · yaw ${state.yaw.toFixed(0)} deg / pitch ${state.pitch.toFixed(0)} deg${skippedTriangles?' · some faces skipped':''}`,18,28,{font:`11px ${K.mono}`,color:K.ink2});
+ D.text(c,'Drag to rotate · arrow keys and controls are equivalent',18,h-16,{font:`11px ${K.sans}`,color:K.ink2});
+ $('desc-a').textContent=`Orthographic temperature surface with yaw ${state.yaw.toFixed(0)} degrees and pitch ${state.pitch.toFixed(0)} degrees. Probe x=${state.x.toFixed(3)}, t=${state.t.toFixed(3)}, T=${r.T.toFixed(4)}. The solid accent slice holds time fixed; the dashed ink slice holds position fixed. Faces use mean-depth sorting; tangent plane and slices are explanatory overlays.`;
+}
+function drawSlice(id,axis,r){
+ const cv=$('cv-'+id),{c}=D.setup(cv),bx=D.box(cv,{t:42,r:22,b:45,l:54}),range=axis==='x'?[0,Math.PI]:[0,2.2],current=state[axis],slope=axis==='x'?r.Tx:r.Tt;
+ const F=D.frame(bx,range,[-1.6,1.6]);frames[id]=F;
+ D.axes(c,F,{xTicks:axis==='x'?[0,1,2,3]:[0,.5,1,1.5,2],yTicks:[-1,0,1],xLabel:axis==='x'?'position x':'time t',yLabel:'temperature T',grid:false});
+ const pts=Array.from({length:241},(_,i)=>{const u=range[1]*i/240;return [F.X(u),F.Y(axis==='x'?MODEL.f(u,state.t,P()):MODEL.f(state.x,u,P()))];});
+ D.clip(c,bx,()=>{line(c,pts,{width:2});line(c,[[F.X(current-.4),F.Y(r.T-.4*slope)],[F.X(current+.4),F.Y(r.T+.4*slope)]],{width:1.3,dash:D.DASH.dash});line(c,[[F.X(current),bx.b],[F.X(current),F.Y(r.T)]],{color:K.accent,dash:D.DASH.chain});});
+ const q=[F.X(current),F.Y(r.T)];D.dot(c,...q,{color:K.accent});D.text(c,`${axis==='x'?'Tx':'Tt'} = ${slope.toFixed(3)}`,bx.r,bx.t-16,{align:'right',color:K.accentInk});
+ $('desc-'+id).textContent=`Profile with ${axis==='x'?`time t=${state.t.toFixed(3)} fixed`:`position x=${state.x.toFixed(3)} fixed`}. Current temperature is ${r.T.toFixed(4)} and the dashed tangent slope is ${slope.toFixed(4)}. Drag the ${axis==='x'?'position':'time'} probe; the range is fixed.`;
+}
+function drawDiscrete(r){
+ const cv=$('cv-d'),{c}=D.setup(cv),bx=D.box(cv,{t:42,r:22,b:45,l:54}),F=D.frame(bx,[0,Math.PI],[-1.6,1.6]);
+ D.axes(c,F,{xTicks:[0,1,2,3],yTicks:[-1,0,1],xLabel:'position x',yLabel:'temperature T',grid:false});
+ const pts=Array.from({length:201},(_,i)=>{const x=Math.PI*i/200;return[F.X(x),F.Y(MODEL.f(x,state.t,P()))];});D.clip(c,bx,()=>line(c,pts,{width:1.8}));
+ const triple=[state.x-state.h,state.x,state.x+state.h].map(x=>[F.X(x),F.Y(MODEL.f(x,state.t,P()))]);line(c,[triple[0],triple[2]],{dash:D.DASH.dash,width:1});triple.forEach((p,i)=>D.dot(c,...p,{color:i===1?K.accent:K.ink,hollow:i!==1}));
+ const average=(MODEL.f(state.x-state.h,state.t,P())+MODEL.f(state.x+state.h,state.t,P()))/2;line(c,[[F.X(state.x),F.Y(r.T)],[F.X(state.x),F.Y(average)]],{color:K.accent,width:2});
+ D.text(c,`h = ${state.h.toFixed(3)} · centered difference = ${r.discrete.toFixed(3)}`,bx.r,bx.t-16,{align:'right',color:K.accentInk});
+ $('desc-d').textContent=`Centered second difference uses the center x=${state.x.toFixed(3)} and neighbors at spacing h=${state.h.toFixed(3)}. Difference=${r.discrete.toFixed(5)}; analytic curvature=${r.Txx.toFixed(5)}. The accent segment shows the center value versus the neighbor average.`;
+}
+function drawError(r){
+ const cv=$('cv-e'),{c}=D.setup(cv),bx=D.box(cv,{t:42,r:26,b:45,l:62}),F=D.frame(bx,[.001,.6],[1e-10,1],{logX:true,logY:true});
+ D.axes(c,F,{xTicks:[.001,.01,.1],yTicks:[1e-10,1e-8,1e-6,1e-4,.01,1],xFmt:v=>v.toString(),yFmt:v=>v.toExponential(0),xLabel:'spacing h (log)',yLabel:'absolute error (log)',grid:false});
+ const hmax=Math.min(.5,state.x,Math.PI-state.x),pts=[];for(let i=0;i<=140;i++){const h=.001*(hmax/.001)**(i/140),e=MODEL.evaluate({x:state.x,t:state.t,h},P()).error;if(e>0)pts.push([F.X(h),F.Y(e)]);}D.clip(c,bx,()=>{line(c,pts,{width:1.8});if(r.error>0)D.dot(c,F.X(state.h),F.Y(r.error),{color:K.accent});});
+ D.text(c,Math.min(r.error,r.errorHalf)>1e-12?`observed p = ${r.order.toFixed(3)}`:'error near zero: order unavailable',bx.r,bx.t-16,{align:'right',color:K.accentInk,font:`11px ${K.mono}`});
+ $('desc-e').textContent=`Both axes are logarithmic with fixed ranges. Current error is ${r.error.toExponential(3)}; half-step error is ${r.errorHalf.toExponential(3)}; ${Math.min(r.error,r.errorHalf)>1e-12?`observed order is ${r.order.toFixed(3)}`:'the error is too small to estimate order'}. Points outside the fixed display range are clipped.`;
+}
+function render(){
+ const r=MODEL.evaluate({x:state.x,t:state.t,h:state.h},P());
+ for(const key of ['T','Tx','Tt','Txx','discrete','error'])$('r-'+key).textContent=fmt(r[key]);
+ $('r-order').textContent=Math.min(r.error,r.errorHalf)>1e-12?r.order.toFixed(3):'unavailable';
+ $('r-residual').textContent=Math.abs(r.residual)<1e-12?'OK < 1e-12':Math.abs(r.residual).toExponential(2);
+ $('cell-residual').classList.toggle('ok',Math.abs(r.residual)<1e-9);$('cell-residual').classList.toggle('fail',Math.abs(r.residual)>=1e-9);
+ updateDynamicMath(r);draw3D(r);drawSlice('b','x',r);drawSlice('c','t',r);drawDiscrete(r);drawError(r);
+}
+D.drag($('cv-a'),{hit:(x,y)=>({x,y,yaw:state.yaw,pitch:state.pitch}),move:(start,x,y)=>update({yaw:Math.max(-180,Math.min(180,start.yaw+(x-start.x)*.45)),pitch:start.pitch-(y-start.y)*.3})});
+$('cv-a').addEventListener('keydown',e=>{const patches={ArrowLeft:{yaw:state.yaw-5},ArrowRight:{yaw:state.yaw+5},ArrowUp:{pitch:state.pitch+5},ArrowDown:{pitch:state.pitch-5}};if(patches[e.key]){e.preventDefault();update(patches[e.key]);}});
+for(const [id,axis]of [['b','x'],['c','t']])D.drag($('cv-'+id),{hit:(x,y)=>frames[id]&&x>=frames[id].box.l&&x<=frames[id].box.r&&y>=frames[id].box.t&&y<=frames[id].box.b?'probe':null,move:(_,x)=>update({[axis]:frames[id].ix(x)})});
+$('reset').addEventListener('click',()=>update({...DEFAULTS}));$('download').addEventListener('click',()=>D.downloadNote('guide'));$('single').addEventListener('click',()=>update({x:Math.PI/2,t:0,alpha:1,beta:0,h:.2}));$('mixed').addEventListener('click',()=>update({...DEFAULTS}));$('halve').addEventListener('click',()=>update({h:state.h/2}));$('front').addEventListener('click',()=>update({yaw:0,pitch:10}));$('oblique').addEventListener('click',()=>update({yaw:-55,pitch:28}));
+new ResizeObserver(()=>render()).observe($('drawing'));update();
+});
+</script>
+</body>
+</html>

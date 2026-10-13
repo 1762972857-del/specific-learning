@@ -1,0 +1,9 @@
+{
+  "01_profile.svg": {
+    "velocity": 0.3,
+    "gradient": 100.0,
+    "stress": 10.0,
+    "y": 0.003,
+    "dissipation": 0.23999999999999996
+  }
+}
